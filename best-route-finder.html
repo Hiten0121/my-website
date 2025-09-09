@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Best Route Finder - Multi-Train</title>
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f7f9fc; color: #1e4db7;
+    margin: 0; padding: 16px;
+  }
+  h1 {
+    text-align: center;
+  }
+  label, input, button {
+    font-size: 1rem;
+    margin: 8px 0;
+  }
+  input {
+    padding: 8px;
+    width: 100%;
+    max-width: 400px;
+  }
+  button {
+    background: #1e4db7; color: white;
+    border: none; padding: 12px 24px;
+    cursor: pointer; border-radius: 6px;
+  }
+  button:hover {
+    background: #16408c;
+  }
+  #results {
+    margin-top: 24px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .route {
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-bottom: 16px;
+    background: white;
+    box-shadow: 0 2px 6px #ccc;
+  }
+  .highlight {
+    border: 2px solid #1e4db7;
+    background: #e3eaff;
+  }
+  .train-name {
+    font-weight: 700;
+  }
+  .transfer-info {
+    margin-top: 8px;
+    font-style: italic;
+    font-size: 0.9rem;
+  }
+</style>
+</head>
+<body>
+
+<h1>Best Route Finder</h1>
+
+<label for="startStation">Start Station:</label>
+<input type="text" id="startStation" placeholder="Enter starting station, e.g. Delhi" />
+
+<label for="endStation">Destination Station:</label>
+<input type="text" id="endStation" placeholder="Enter destination station, e.g. Goa" />
+
+<button id="findRouteBtn">Find Best Route</button>
+
+<div id="results"></div>
+
+<script>
+  // Sample train data: each train has a name and sequence of stations on its route
+  const trains = [
+    { name: "Train A", stations: ["Delhi", "Agra", "Jaipur", "Mumbai", "Goa"] },
+    { name: "Train B", stations: ["Delhi", "Chandigarh", "Ludhiana", "Amritsar"] },
+    { name: "Train C", stations: ["Jaipur", "Ahmedabad", "Surat", "Mumbai"] },
+    { name: "Train D", stations: ["Mumbai", "Pune", "Goa"] },
+    { name: "Train E", stations: ["Chandigarh", "Delhi", "Kanpur", "Varanasi", "Patna"] }
+  ];
+
+  const findRouteBtn = document.getElementById('findRouteBtn');
+  const resultsDiv = document.getElementById('results');
+
+  function findDirectTrain(start, end) {
+    return trains.find(train => {
+      const startIndex = train.stations.indexOf(start);
+      const endIndex = train.stations.indexOf(end);
+      return startIndex !== -1 && endIndex !== -1 && startIndex < endIndex;
+    });
+  }
+
+  function findTransferRoutes(start, end) {
+    let routes = [];
+    for (const train1 of trains) {
+      if (!train1.stations.includes(start)) continue;
+      for (const train2 of trains) {
+        if (train1 === train2) continue;
+        if (!train2.stations.includes(end)) continue;
+        // Find common transfer stations
+        const commonStations = train1.stations.filter(station => train2.stations.includes(station));
+        for (const transferStation of commonStations) {
+          // valid transfer means start->transfer on train1 and transfer->end on train2
+          const startIndex = train1.stations.indexOf(start);
+          const transferIndex1 = train1.stations.indexOf(transferStation);
+          const transferIndex2 = train2.stations.indexOf(transferStation);
+          const endIndex = train2.stations.indexOf(end);
+          if (startIndex < transferIndex1 && transferIndex2 < endIndex) {
+            routes.push({
+              transferStation,
+              firstLeg: train1.name,
+              secondLeg: train2.name
+            });
+          }
+        }
+      }
+    }
+    return routes;
+  }
+
+  findRouteBtn.addEventListener('click', () => {
+    const start = document.getElementById('startStation').value.trim();
+    const end = document.getElementById('endStation').value.trim();
+    resultsDiv.innerHTML = '';
+
+    if (!start || !end) {
+      resultsDiv.textContent = 'Please enter both start and destination stations.';
+      return;
+    }
+    if (start.toLowerCase() === end.toLowerCase()) {
+      resultsDiv.textContent = 'Start and destination stations must be different.';
+      return;
+    }
+
+    // Find direct train
+    const directTrain = findDirectTrain(start, end);
+    
+    // Find transfer options
+    const transferRoutes = findTransferRoutes(start, end);
+
+    if (!directTrain && transferRoutes.length === 0) {
+      resultsDiv.textContent = 'No routes found for the given stations.';
+      return;
+    }
+
+    // Show best route (direct preferred)
+    if (directTrain) {
+      resultsDiv.innerHTML += `
+        <div class="route highlight">
+          <div><strong>Best Route (Direct Train):</strong></div>
+          <div>Train: <span class="train-name">${directTrain.name}</span></div>
+          <div>Route: ${start} → ${end}</div>
+        </div>
+      `;
+    }
+
+    // Show alternative transfer routes
+    if (transferRoutes.length > 0) {
+      resultsDiv.innerHTML += `<div><strong>Other Options (Transfers):</strong></div>`;
+      transferRoutes.forEach(r => {
+        resultsDiv.innerHTML += `
+          <div class="route">
+            <div>First Leg: Train <span class="train-name">${r.firstLeg}</span> from ${start} to ${r.transferStation}</div>
+            <div>Transfer at: <strong>${r.transferStation}</strong></div>
+            <div>Second Leg: Train <span class="train-name">${r.secondLeg}</span> from ${r.transferStation} to ${end}</div>
+          </div>
+        `;
+      });
+    }
+  });
+</script>
+
+</body>
+</html>
