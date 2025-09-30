@@ -1,347 +1,983 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>My Train App</title>
-<style>
-  body {
-    margin: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: #f7f9fc;
-    color: #222;
-  }
-  /* Header */
-  header {
-    display: flex;
-    align-items: center;
-    background: #1e4db7;
-    color: white;
-    padding: 12px 16px;
-    position: fixed;
-    width: 100%;
-    top: 0;
-    left: 0;
-    z-index: 1000;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-  }
-  /* Hamburger menu icon */
-  #menu-btn {
-    cursor: pointer;
-    font-size: 24px;
-    user-select: none;
-  }
-  #header-title {
-    flex-grow: 1;
-    text-align: center;
-    font-size: 1.25rem;
-    font-weight: 600;
-    margin-right: 36px; /* offset because hamburger on left */
-  }
-  /* Side nav panel */
-  #side-nav {
-    height: 100%;
-    width: 0;
-    position: fixed;
-    z-index: 1100;
-    top: 0;
-    left: 0;
-    background-color: #1e4db7;
-    overflow-x: hidden;
-    transition: width 0.3s ease;
-    padding-top: 60px; /* space below header */
-    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.3);
-  }
-  #side-nav a {
-    display: block;
-    padding: 16px 24px;
-    color: white;
-    font-size: 1.1rem;
-    text-decoration: none;
-    transition: background 0.25s ease;
-  }
-  #side-nav a:hover {
-    background: #16408c;
-  }
-  /* Close button inside side nav */
-  #side-nav .close-btn {
-    position: absolute;
-    top: 12px;
-    right: 16px;
-    font-size: 24px;
-    cursor: pointer;
-    color: white;
-  }
-  /* Main content container */
-  main {
-    padding: 80px 16px 24px; /* top padding to avoid header */
-    max-width: 960px;
-    margin: 0 auto;
-  }
-  /* Icon grid */
-  /* .icon-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit,minmax(140px,1fr));
-    gap: 24px;
-    margin-top: 24px;
-  } */
-   .icon-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 24px; /* space between cards */
-  justify-content: center; /* center cards horizontally */
-  margin-top: 24px;
-  padding: 0 12px; /* optional padding on sides */
-}
-  /* Icon clickable cards */
-  /* .icon-card {
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px #ccccccaa;
-    padding: 24px 16px;
-    text-align: center;
-    cursor: pointer;
-    transition: box-shadow 0.3s ease, transform 0.2s ease;
-  } */
-  .icon-card {
-  flex: 1 1 160px; /* grow and shrink; base width 160px */
-  max-width: 200px; /* max card width */
-  min-width: 140px;  /* min card width */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px #ccccccaa;
-  padding: 24px 16px;
-  text-decoration: none;
-  cursor: pointer;
-  text-align: center;
-  transition: box-shadow 0.3s, transform 0.2s;
-  height: 220px; /* fixed height for uniformity */
-}
-  /* .icon-card:hover {
-    box-shadow: 0 6px 20px #1e4db766;
-    transform: translateY(-6px);
-  } */
-  .icon-card:hover {
-  box-shadow: 0 6px 20px #1e4db766;
-  transform: translateY(-6px);
-  }
-  /* Icon styles - using inline SVG from material icons for simplicity */
-  .icon-svg {
-    width: 48px;
-    height: 48px;
-    fill: #1e4db7;
-    margin-bottom: 12px;
-  }
-  .icon-label {
-    font-size: 1rem;
-    font-weight: 600;
-    color: #1e4db7;
-  }
-  /* Responsive tweaks */
-  @media (max-width: 420px) {
-    .icon-grid {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 16px;
-    }
-  }
-  /* For icon image */
-  .icon-img {
-  width: 48px;
-  height: 48px;
-  margin-bottom: 12px;
-  display: block;
-  object-fit: contain;
-  margin-left: auto;
-  margin-right: auto;
-}
-.icon-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px #ccccccaa;
-  padding: 24px 16px;
-  text-align: center;
-  cursor: pointer;
-  transition: box-shadow 0.3s ease, transform 0.2s ease;
-  width: 170px;
-  height: 200px;
-  margin: 0 12px 24px 0;
-  text-decoration: none;
-}
-.icon-label {
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: #1e4db7;
-  margin-top: 8px;
-}
-  /* Login status styles */
-  #login-status {
-    font-size: 0.95rem;
-    font-weight: 500;
-    margin-right: 16px;
-  }
-  #logout-btn {
-    background: #fff;
-    color: #1e4db7;
-    border: none;
-    border-radius: 4px;
-    padding: 6px 12px;
-    font-weight: 600;
-    cursor: pointer;
-    display: none;
-  }
-  #logout-btn:hover {
-    background: #e3eaff;
-  }
-  /* Google Signin button container style */
-  .g_id_signin {
-    margin-right: 12px;
-  }
-</style>
-<!-- Google Identity Services script -->
-<script src="https://accounts.google.com/gsi/client" async defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apni Rail - AI-Enhanced Booking System</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.23.4/full/pyodide.js"></script>
 </head>
-<body>
-<header>
-  <div id="menu-btn" aria-label="Open menu" tabindex="0">☰</div>
-  <div id="header-title">Welcome to My Train App</div>
-  <!-- Google Sign-In button container -->
-  <div class="g_id_signin"></div>
-  <!-- Login status -->
-  <span id="login-status"></span>
-  <!-- Logout button -->
-  <button id="logout-btn">Logout</button>
-</header>
-<nav id="side-nav" aria-hidden="true" aria-label="Side navigation">
-  <div class="close-btn" id="close-btn" aria-label="Close menu" tabindex="0">&times;</div>
-  <!-- <a href="#" tabindex="0">About Us</a> -->
-  <a href="about-us.html" tabindex="0">About Us</a>
-  <a href="#" tabindex="0">Profile</a>
-  <!-- <a href="#" tabindex="0">Logout</a> -->
-  <a href="#" tabindex="0">Help</a>
-</nav>
-<main role="main">
-  <div class="icon-grid">
-    <!-- <div class="icon-card" tabindex="0" title="Best Route Finder for Train"> -->
-      <!-- <svg class="icon-svg" viewBox="0 0 24 24"><path d="M16 6V4h-5v7l2 2 3-3v-3h-2z"/><path d="M12 2a7 7 0 0 0-7 7v5.01c0 2 1.8 5 3 6l3 3 3-3c.8-.9 3-4 3-6V9a7 7 0 0 0-7-7z"/></svg> -->
-      <a href="best-route-finder.html" class="icon-card" tabindex="0" title="Best Route Finder for Train">
-      <img src="img/best-route-finder.png" class="icon-img" alt="Best Route Finder Icon" />
-      <div class="icon-label">Best Route Finder</div>
-      </a>
+<body data-color-scheme="light" style="min-height: 100vh;">
+    <!-- Voice Assistant Panel -->
+    <div class="voice-panel hidden" id="voicePanel">
+        <div class="voice-panel-content">
+            <div class="voice-panel-header">
+                <h3><i class="fas fa-robot"></i> AI Voice Assistant</h3>
+                <button class="voice-panel-close" onclick="closeVoicePanel()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="voice-panel-body">
+                <div class="voice-status" id="voiceStatus">
+                    <i class="fas fa-microphone"></i>
+                    <span>Hi! I can help you book trains, track them, and manage your profile. Click the microphone to start!</span>
+                </div>
+                <div class="voice-chat" id="voiceChat">
+                    <div class="chat-message system">
+                        <i class="fas fa-robot"></i>
+                        <span>Hello! I'm your AI railway assistant. I can help with booking, tracking, and profile management. Try saying "help" to see what I can do!</span>
+                    </div>
+                </div>
+                <div class="voice-controls">
+                    <button class="voice-mic-btn" id="voiceMicBtn" onclick="toggleVoiceListening()">
+                        <i class="fas fa-microphone"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    <!-- <div class="icon-card" tabindex="0" title="Train Location">
-      <svg class="icon-svg" viewBox="0 0 24 24"><path d="M5 12h14M12 5v14"/></svg>
-      <div class="icon-label">Train Location</div>
-    </div> -->
-    <a href="" class="icon-card" tabindex="0" title="Train Location">
-      <img src="img/train-location.png" class="icon-img" alt="Train Location Icon" />
-      <div class="icon-label">Train Location</div>
-      </a>
-    <!-- <div class="icon-card" tabindex="0" title="Nearby Train Station">
-      <svg class="icon-svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" stroke="#1e4db7" stroke-width="2" fill="none"/><path d="M12 8v4l3 3"/></svg>
-      <div class="icon-label">Nearby Station</div>
-    </div> -->
-    <a href="" class="icon-card" tabindex="0" title="Nearby Train Station">
-      <img src="img/nearby-station-location.png" class="icon-img" alt="Nearby train station Icon" />
-      <div class="icon-label">Nearby Train Station</div>
-      </a>
-    <!-- <div class="icon-card" tabindex="0" title="General Ticket Booking">
-      <svg class="icon-svg" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="10" rx="2" ry="2" stroke="#1e4db7" stroke-width="2" fill="none"/><path d="M2 12h20"/></svg>
-      <div class="icon-label">General Ticket Booking</div>
-    </div> -->
-    <a href="" class="icon-card" tabindex="0" title="General Ticket Booking">
-      <img src="img/general-ticket-booking.png" class="icon-img" alt="General Ticket Booking Icon" />
-      <div class="icon-label">General Ticket Booking</div>
-      </a>
-    <!-- <div class="icon-card" tabindex="0" title="Reserve Ticket Booking">
-      <svg class="icon-svg" viewBox="0 0 24 24"><path d="M4 6h16M4 18h16M4 12h16"/></svg>
-      <div class="icon-label">Reserve Ticket Booking</div>
-    </div> -->
-    <a href="" class="icon-card" tabindex="0" title="Reserve Ticket Booking">
-      <img src="img/reservation-ticket-booking.png" class="icon-img" alt="Reserve Ticket Booking Icon" />
-      <div class="icon-label">Reserve Ticket Booking</div>
-      </a>
-    <!-- <div class="icon-card" tabindex="0" title="History of Booking">
-      <svg class="icon-svg" viewBox="0 0 24 24"><path d="M12 8v5l4 2"/></svg>
-      <div class="icon-label">Booking History</div>
-    </div> -->
-    <a href="" class="icon-card" tabindex="0" title="Booking History">
-      <img src="img/history.png" class="icon-img" alt="Booking History Icon" />
-      <div class="icon-label">Booking History</div>
-      </a>
-  </div>
-</main>
-<script>
-  const menuBtn = document.getElementById('menu-btn');
-  const sideNav = document.getElementById('side-nav');
-  const closeBtn = document.getElementById('close-btn');
-  const loginStatus = document.getElementById('login-status');
-  const logoutBtn = document.getElementById('logout-btn');
+    <!-- Login Modal -->
+    <div class="auth-modal hidden" id="loginModal">
+        <div class="auth-modal-content">
+            <div class="auth-header">
+                <h2><i class="fas fa-sign-in-alt"></i> Login to Your Account</h2>
+                <button class="auth-close" onclick="closeAuthModal('loginModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form class="auth-form" id="loginForm">
+                <div class="form-group">
+                    <label class="form-label">Email or Mobile Number</label>
+                    <input type="text" class="form-control" id="loginEmail" placeholder="Enter email or mobile number" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <div class="password-input">
+                        <input type="password" class="form-control" id="loginPassword" placeholder="Enter your password" required>
+                        <button type="button" class="password-toggle" onclick="togglePassword('loginPassword')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="rememberMe">
+                        <span class="checkmark"></span>
+                        Remember me
+                    </label>
+                </div>
+                <button type="submit" class="btn btn--primary btn--full-width">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </button>
+                <div class="auth-links">
+                    <button type="button" class="link-button" onclick="showAuthModal('registerModal')">
+                        Don't have an account? Register here
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
 
-  function openNav() {
-    sideNav.style.width = '250px';
-    sideNav.setAttribute('aria-hidden', 'false');
-  }
-  function closeNav() {
-    sideNav.style.width = '0';
-    sideNav.setAttribute('aria-hidden', 'true');
-  }
+    <!-- Register Modal -->
+    <div class="auth-modal hidden" id="registerModal">
+        <div class="auth-modal-content">
+            <div class="auth-header">
+                <h2><i class="fas fa-user-plus"></i> Create New Account</h2>
+                <button class="auth-close" onclick="closeAuthModal('registerModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form class="auth-form" id="registerForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">First Name</label>
+                        <input type="text" class="form-control" id="firstName" placeholder="First name" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Last Name</label>
+                        <input type="text" class="form-control" id="lastName" placeholder="Last name" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" class="form-control" id="registerEmail" placeholder="Enter email address" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Mobile Number</label>
+                    <input type="tel" class="form-control" id="registerMobile" placeholder="Enter 10-digit mobile number" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Aadhaar Number</label>
+                    <input type="text" class="form-control" id="aadhaarNumber" placeholder="Enter 12-digit Aadhaar number" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <div class="password-input">
+                        <input type="password" class="form-control" id="registerPassword" placeholder="Create a strong password" required>
+                        <button type="button" class="password-toggle" onclick="togglePassword('registerPassword')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Confirm Password</label>
+                    <div class="password-input">
+                        <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm your password" required>
+                        <button type="button" class="password-toggle" onclick="togglePassword('confirmPassword')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="agreeTerms" required>
+                        <span class="checkmark"></span>
+                        I agree to the Terms & Conditions and Privacy Policy
+                    </label>
+                </div>
+                <button type="submit" class="btn btn--primary btn--full-width">
+                    <i class="fas fa-user-plus"></i> Create Account
+                </button>
+                <div class="auth-links">
+                    <button type="button" class="link-button" onclick="showAuthModal('loginModal')">
+                        Already have an account? Login here
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
 
-  menuBtn.addEventListener('click', openNav);
-  menuBtn.addEventListener('keydown', (e) => { if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openNav(); }} );
-  closeBtn.addEventListener('click', closeNav);
-  closeBtn.addEventListener('keydown', (e) => { if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); closeNav(); }} );
-  // Closing side nav if clicking outside
-  window.addEventListener('click', function(event) {
-    if (sideNav.style.width === '250px' && !sideNav.contains(event.target) && event.target !== menuBtn) {
-      closeNav();
-    }
-  });
+    <!-- Delay Notification Bar -->
+    <div class="delay-notification-bar" id="delayNotificationBar">
+        <div class="notification-scroll">
+            <!-- Notifications will be populated by JavaScript -->
+        </div>
+    </div>
 
-  // Google Sign-In callback handling
-  function handleCredentialResponse(response) {
-    // Decode JWT token (optional: parse user info from it)
-    const jwt = response.credential;
-    // For demonstration, parse user name from jwt payload
-    const base64Url = jwt.split('.')[1];
-    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-    const jsonPayload = decodeURIComponent(atob(base64).split('')
-      .map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join(''));
-    const user = JSON.parse(jsonPayload);
+    <!-- Navigation Header -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <i class="fas fa-train"></i>
+                <span>Apni Rail</span>
+            </div>
+            <div class="nav-menu" id="navMenu">
+                <a href="#" class="nav-link active" data-section="home">Home</a>
+                <a href="#" class="nav-link" data-section="booking">Book Ticket</a>
+                <a href="#" class="nav-link" data-section="tracking">Live Tracking</a>
+                <a href="#" class="nav-link" data-section="pnr">PNR Status</a>
+                <a href="#" class="nav-link" data-section="uts">UTS</a>
+                <div class="nav-actions" id="navActions">
+                    <div class="nav-user-section hidden" id="navUserSection">
+                        <div class="user-avatar" onclick="navigateToSection('profile')">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <span class="user-name" id="navUserName">User</span>
+                        <button class="btn btn--outline btn--nav" onclick="logout()">Logout</button>
+                    </div>
+                    <div class="nav-guest-section" id="navGuestSection">
+                        <button class="btn btn--outline btn--nav" onclick="showAuthModal('loginModal')">Login</button>
+                        <button class="btn btn--primary btn--nav" onclick="showAuthModal('registerModal')">Register</button>
+                    </div>
+                    <button class="voice-assistant-btn" onclick="openVoicePanel()" title="AI Voice Assistant">
+                        <i class="fas fa-microphone"></i>
+                    </button>
+                </div>
+            </div>
+            <button class="nav-toggle" id="navToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
 
-    // Update UI after successful login
-    loginStatus.textContent = `Welcome, ${user.name}`;
-    logoutBtn.style.display = 'inline-block';
-    document.querySelector(".g_id_signin").style.display = "none";
-  }
+    <!-- Home Section -->
+    <section class="section active" id="home">
+        <!-- Hero Section -->
+        <div class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <div class="hero-text">
+                        <h1>AI-Enhanced Railway Experience</h1>
+                        <p class="hero-subtitle">Book, Track & Manage with Voice Assistant</p>
+                        <p class="hero-description">Experience the future of railway booking with our AI voice assistant, complete route-based search, real-time tracking, and intelligent profile management.</p>
+                        <div class="hero-features">
+                            <div class="feature-tag"><i class="fas fa-microphone"></i> Voice Commands</div>
+                            <div class="feature-tag"><i class="fas fa-route"></i> Route-Based Search</div>
+                            <div class="feature-tag"><i class="fas fa-map-marker-alt"></i> Live Tracking</div>
+                        </div>
+                    </div>
+                    <div class="hero-visual">
+                        <div class="train-illustration">
+                            <i class="fas fa-train"></i>
+                        </div>
+                        <div class="ai-indicator">
+                            <i class="fas fa-robot"></i>
+                            <span>AI Powered</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-  // Initialize Google Sign-In
-  window.onload = function () {
-    google.accounts.id.initialize({
-      client_id: "579190085433-fd53iq7c52pc3t900p17g61vu06hslbu.apps.googleusercontent.com", // <<<< REPLACE with your actual client ID
-      callback: handleCredentialResponse
-    });
-    google.accounts.id.renderButton(
-      document.querySelector(".g_id_signin"),
-      { theme: "outline", size: "large" }
-    );
-    google.accounts.id.prompt(); // Display One Tap prompt
-  };
+        <!-- Enhanced Train Search Widget -->
+        <div class="quick-booking">
+            <div class="container">
+                <div class="booking-card">
+                    <h2 class="booking-title">
+                        <i class="fas fa-search"></i>
+                        Search Trains by Route
+                        <button class="voice-search-btn" onclick="startVoiceSearch()" title="Use voice to search">
+                            <i class="fas fa-microphone"></i>
+                        </button>
+                    </h2>
+                    <form class="booking-form" id="quickBookingForm">
+                        <div class="booking-fields">
+                            <div class="field-group">
+                                <div class="form-group">
+                                    <label class="form-label">From Station</label>
+                                    <input type="text" class="form-control station-input" id="fromStation" 
+                                           placeholder="Enter departure station" autocomplete="off" required>
+                                    <div class="station-suggestions" id="fromSuggestions"></div>
+                                </div>
+                                <button type="button" class="swap-stations" id="swapStations">
+                                    <i class="fas fa-exchange-alt"></i>
+                                </button>
+                                <div class="form-group">
+                                    <label class="form-label">To Station</label>
+                                    <input type="text" class="form-control station-input" id="toStation" 
+                                           placeholder="Enter destination station" autocomplete="off" required>
+                                    <div class="station-suggestions" id="toSuggestions"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="field-group single-field">
+                                <div class="form-group">
+                                    <label class="form-label">Journey Date</label>
+                                    <input type="date" class="form-control" id="journeyDate" required>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="btn btn--primary btn--large search-btn">
+                            <i class="fas fa-search"></i>
+                            Search Trains on Route
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
 
-  // Logout function
-  logoutBtn.addEventListener('click', () => {
-    loginStatus.textContent = '';
-    logoutBtn.style.display = 'none';
-    document.querySelector(".g_id_signin").style.display = "inline-block";
-    google.accounts.id.disableAutoSelect();
-  });
-</script>
+        <!-- Feature Cards Section -->
+        <div class="feature-cards-section">
+            <div class="container">
+                <h2 class="section-title">AI-Powered Railway Services</h2>
+                <div class="feature-cards-grid" id="featureCardsGrid">
+                    <!-- Feature cards will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Profile Section -->
+    <section class="section" id="profile">
+        <div class="container">
+            <div class="profile-layout">
+                <!-- Profile Sidebar -->
+                <div class="profile-sidebar">
+                    <div class="profile-user-card">
+                        <div class="user-avatar large">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <h3 class="user-name" id="profileUserName">User Name</h3>
+                        <p class="user-email" id="profileUserEmail">user@email.com</p>
+                    </div>
+                    <nav class="profile-nav">
+                        <a href="#" class="profile-nav-link active" data-tab="dashboard">
+                            <i class="fas fa-tachometer-alt"></i> Dashboard
+                        </a>
+                        <a href="#" class="profile-nav-link" data-tab="bookings">
+                            <i class="fas fa-ticket-alt"></i> My Bookings
+                        </a>
+                        <a href="#" class="profile-nav-link" data-tab="passengers">
+                            <i class="fas fa-users"></i> Saved Passengers
+                        </a>
+                        <a href="#" class="profile-nav-link" data-tab="settings">
+                            <i class="fas fa-cog"></i> Settings
+                        </a>
+                    </nav>
+                </div>
+
+                <!-- Profile Content -->
+                <div class="profile-content">
+                    <!-- Dashboard Tab -->
+                    <div class="profile-tab active" id="dashboard">
+                        <h2>Dashboard</h2>
+                        <div class="dashboard-stats">
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-ticket-alt"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <div class="stat-number" id="totalBookings">12</div>
+                                    <div class="stat-label">Total Bookings</div>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <div class="stat-number" id="upcomingJourneys">2</div>
+                                    <div class="stat-label">Upcoming Journeys</div>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-rupee-sign"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <div class="stat-number" id="totalSpent">₹15,630</div>
+                                    <div class="stat-label">Total Spent</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="recent-bookings-section">
+                            <h3>Recent Bookings</h3>
+                            <div class="recent-bookings" id="recentBookingsList">
+                                <!-- Recent bookings will be populated by JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- My Bookings Tab -->
+                    <div class="profile-tab" id="bookings">
+                        <div class="tab-header">
+                            <h2>My Bookings</h2>
+                            <div class="booking-filters">
+                                <button class="filter-btn active" data-filter="all">All</button>
+                                <button class="filter-btn" data-filter="reserved">Reserved</button>
+                                <button class="filter-btn" data-filter="general">General</button>
+                                <button class="filter-btn" data-filter="upcoming">Upcoming</button>
+                            </div>
+                        </div>
+                        <div class="bookings-list" id="profileBookingsList">
+                            <!-- Bookings will be populated by JavaScript -->
+                        </div>
+                    </div>
+
+                    <!-- Saved Passengers Tab -->
+                    <div class="profile-tab" id="passengers">
+                        <div class="tab-header">
+                            <h2>Saved Passengers</h2>
+                            <button class="btn btn--primary" onclick="showAddPassengerModal()">
+                                <i class="fas fa-plus"></i> Add Passenger
+                            </button>
+                        </div>
+                        <div class="passengers-list" id="savedPassengersList">
+                            <!-- Passengers will be populated by JavaScript -->
+                        </div>
+                    </div>
+
+                    <!-- Settings Tab -->
+                    <div class="profile-tab" id="settings">
+                        <h2>Settings</h2>
+                        <div class="settings-sections">
+                            <div class="settings-section">
+                                <h3>Account Settings</h3>
+                                <div class="setting-item">
+                                    <label class="setting-label">Email Notifications</label>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="emailNotifications" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                                <div class="setting-item">
+                                    <label class="setting-label">SMS Alerts</label>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="smsAlerts" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                                <div class="setting-item">
+                                    <label class="setting-label">Voice Assistant</label>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="voiceAssistant" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="settings-section">
+                                <h3>Preferences</h3>
+                                <div class="setting-item">
+                                    <label class="setting-label">Preferred Language</label>
+                                    <select class="form-control">
+                                        <option value="en">English</option>
+                                        <option value="hi">Hindi</option>
+                                        <option value="ta">Tamil</option>
+                                        <option value="te">Telugu</option>
+                                    </select>
+                                </div>
+                                <div class="setting-item">
+                                    <label class="setting-label">Default Booking Class</label>
+                                    <select class="form-control">
+                                        <option value="3A">AC 3-Tier</option>
+                                        <option value="2A">AC 2-Tier</option>
+                                        <option value="1A">AC 1st Class</option>
+                                        <option value="SL">Sleeper</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Booking Section -->
+    <section class="section" id="booking">
+        <div class="container">
+            <!-- Search Results -->
+            <div class="booking-section" id="trainResults">
+                <div class="section-header">
+                    <h2>Available Trains on Route</h2>
+                    <p id="searchSummary">Select a train to proceed</p>
+                </div>
+                
+                <div class="search-info" id="searchInfo">
+                    <!-- Route information will be displayed here -->
+                </div>
+                
+                <div class="train-results" id="trainList">
+                    <!-- Enhanced train results will be populated here -->
+                </div>
+            </div>
+
+            <!-- Enhanced Coach Layout Section -->
+            <div class="booking-section hidden" id="coachLayout">
+                <div class="section-header">
+                    <button class="btn btn--outline back-btn" onclick="showTrainResults()">
+                        <i class="fas fa-arrow-left"></i> Back to Trains
+                    </button>
+                    <h2 id="trainLayoutTitle">Select Coach</h2>
+                    <p>Choose your preferred coach type</p>
+                </div>
+
+                <div class="train-composition" id="trainComposition">
+                    <h3>Train Composition</h3>
+                    <div class="coach-list" id="coachList">
+                        <!-- Enhanced coach layout will be generated here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Enhanced Seat Layout Section -->
+            <div class="booking-section hidden" id="seatLayout">
+                <div class="section-header">
+                    <button class="btn btn--outline back-btn" onclick="showCoachLayout()">
+                        <i class="fas fa-arrow-left"></i> Back to Coach Selection
+                    </button>
+                    <h2 id="seatLayoutTitle">Seat Selection</h2>
+                    <p>Select your preferred seats</p>
+                </div>
+
+                <div class="seat-map-container">
+                    <div class="seat-selection-area">
+                        <div class="seat-legend">
+                            <div class="legend-item">
+                                <div class="seat-sample available"></div>
+                                <span>Available</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="seat-sample occupied"></div>
+                                <span>Occupied</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="seat-sample selected"></div>
+                                <span>Selected</span>
+                            </div>
+                        </div>
+
+                        <div class="seat-map" id="seatMap">
+                            <!-- Enhanced seat layout will be generated dynamically -->
+                        </div>
+                    </div>
+
+                    <div class="booking-summary">
+                        <div class="selected-seats">
+                            <h3>Selected Seats</h3>
+                            <div id="selectedSeatsList">No seats selected</div>
+                        </div>
+                        <div class="fare-details">
+                            <div class="fare-row">
+                                <span>Base Fare per Seat:</span>
+                                <span id="baseFareAmount">₹0</span>
+                            </div>
+                            <div class="fare-row">
+                                <span>Number of Seats:</span>
+                                <span id="seatCount">0</span>
+                            </div>
+                            <div class="fare-row">
+                                <span>Booking Charges:</span>
+                                <span id="bookingCharges">₹40</span>
+                            </div>
+                            <div class="fare-row total">
+                                <span>Total Amount:</span>
+                                <span id="totalFare">₹0</span>
+                            </div>
+                        </div>
+                        <button class="btn btn--primary btn--full-width" onclick="proceedToPayment()" disabled id="proceedBtn">
+                            Proceed to Payment
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Live Tracking Section -->
+    <section class="section" id="tracking">
+        <div class="container">
+            <div class="section-header">
+                <h2>Live Train Tracking</h2>
+                <p>Track real-time train status and exact location</p>
+            </div>
+
+            <div class="tracking-card">
+                <form class="tracking-form" id="trackingForm">
+                    <div class="tracking-fields">
+                        <div class="form-group">
+                            <label class="form-label">Train Number</label>
+                            <input type="text" class="form-control" id="trackingTrainNumber" 
+                                   placeholder="Enter train number (e.g. 12951)" required>
+                        </div>
+                        <button type="submit" class="btn btn--primary">
+                            <i class="fas fa-search"></i>
+                            Track Train
+                        </button>
+                    </div>
+                </form>
+
+                <div class="tracking-results hidden" id="trackingResults">
+                    <!-- Enhanced Train Status Header -->
+                    <div class="train-status-cards">
+                        <div class="status-card-header">
+                            <h3 id="trackedTrainName">Train Name</h3>
+                            <p class="train-route" id="trainRoute">Route Information</p>
+                        </div>
+
+                        <!-- Enhanced Status Cards Grid -->
+                        <div class="tracking-status-grid">
+                            <div class="tracking-status-card current-station">
+                                <div class="card-icon">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                </div>
+                                <div class="card-content">
+                                    <h4>Current Station</h4>
+                                    <p id="currentStation">Station Name</p>
+                                    <span class="station-code" id="currentStationCode">CODE</span>
+                                </div>
+                            </div>
+                            
+                            <div class="tracking-status-card train-status">
+                                <div class="card-icon">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                                <div class="card-content">
+                                    <h4>Status</h4>
+                                    <p id="trainStatusValue">Status</p>
+                                    <span class="last-updated">Last updated: <span id="lastUpdated">--</span></span>
+                                </div>
+                            </div>
+                            
+                            <div class="tracking-status-card next-station">
+                                <div class="card-icon">
+                                    <i class="fas fa-arrow-right"></i>
+                                </div>
+                                <div class="card-content">
+                                    <h4>Next Station</h4>
+                                    <p id="nextStation">Next Station</p>
+                                    <span class="station-code" id="nextStationCode">CODE</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Enhanced Route Progress Section -->
+                    <div class="route-progress-section">
+                        <h4>Complete Route Progress</h4>
+                        <div class="route-timeline" id="routeTimeline">
+                            <!-- Enhanced route timeline will be populated by JavaScript -->
+                        </div>
+                    </div>
+
+                    <!-- Running Status Table -->
+                    <div class="running-status-section">
+                        <h4>Running Status</h4>
+                        <div class="status-table" id="runningStatusTable">
+                            <!-- Running status table will be populated -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PNR Status Section -->
+    <section class="section" id="pnr">
+        <div class="container">
+            <div class="section-header">
+                <h2>PNR Status Check</h2>
+                <p>Check your ticket confirmation and journey details</p>
+            </div>
+
+            <div class="pnr-card">
+                <form class="pnr-form" id="pnrForm">
+                    <div class="pnr-fields">
+                        <div class="form-group">
+                            <label class="form-label">PNR Number</label>
+                            <input type="text" class="form-control" id="pnrNumber" 
+                                   placeholder="Enter 10-digit PNR number" maxlength="10" required>
+                        </div>
+                        <button type="submit" class="btn btn--primary">
+                            <i class="fas fa-search"></i>
+                            Check Status
+                        </button>
+                    </div>
+                </form>
+
+                <div class="pnr-results hidden" id="pnrResults">
+                    <div class="pnr-status">
+                        <div class="pnr-header">
+                            <h3 id="pnrTrainInfo">Train Information</h3>
+                            <span class="pnr-status-badge" id="pnrStatusBadge">Confirmed</span>
+                        </div>
+                        
+                        <div class="journey-info">
+                            <div class="journey-route-info">
+                                <div class="station-info">
+                                    <div class="station-code" id="pnrFromStation">FROM</div>
+                                    <div class="station-name" id="pnrFromName">Station Name</div>
+                                    <div class="station-time" id="pnrDepartureTime">--:--</div>
+                                </div>
+                                <div class="route-connector">
+                                    <div class="route-line-pnr"></div>
+                                    <i class="fas fa-train"></i>
+                                </div>
+                                <div class="station-info">
+                                    <div class="station-code" id="pnrToStation">TO</div>
+                                    <div class="station-name" id="pnrToName">Station Name</div>
+                                    <div class="station-time" id="pnrArrivalTime">--:--</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="passenger-list">
+                            <h4>Passenger Details</h4>
+                            <div id="pnrPassengerList">
+                                <!-- Passenger details will be populated here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Enhanced UTS Booking Section -->
+    <section class="section" id="uts">
+        <div class="container">
+            <div class="section-header">
+                <h2>Universal Ticketing System (UTS)</h2>
+                <p>Book tickets for any station across India</p>
+            </div>
+
+            <div class="uts-booking-card">
+                <form class="uts-form" id="utsForm">
+                    <div class="uts-steps">
+                        <div class="step active" data-step="1">
+                            <div class="step-number">1</div>
+                            <div class="step-title">Route Selection</div>
+                        </div>
+                        <div class="step" data-step="2">
+                            <div class="step-number">2</div>
+                            <div class="step-title">Passenger Details</div>
+                        </div>
+                        <div class="step" data-step="3">
+                            <div class="step-number">3</div>
+                            <div class="step-title">Payment</div>
+                        </div>
+                    </div>
+
+                    <!-- Step 1: Enhanced Route Selection with Date -->
+                    <div class="step-content" id="utsStep1">
+                        <h3>Select Journey Details</h3>
+                        <div class="uts-fields">
+                            <div class="field-row">
+                                <div class="form-group">
+                                    <label class="form-label">From Station</label>
+                                    <input type="text" class="form-control station-input" id="utsFromStation" 
+                                           placeholder="Enter departure station" autocomplete="off" required>
+                                    <div class="station-suggestions" id="utsFromSuggestions"></div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">To Station</label>
+                                    <input type="text" class="form-control station-input" id="utsToStation" 
+                                           placeholder="Enter destination station" autocomplete="off" required>
+                                    <div class="station-suggestions" id="utsToSuggestions"></div>
+                                </div>
+                            </div>
+                            <div class="field-row">
+                                <div class="form-group">
+                                    <label class="form-label">Journey Date</label>
+                                    <input type="date" class="form-control" id="utsJourneyDate" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Class</label>
+                                    <select class="form-control" id="ticketClass" required>
+                                        <option value="">Select Class</option>
+                                        <option value="first">First Class</option>
+                                        <option value="second">Second Class</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="field-row">
+                                <div class="form-group">
+                                    <label class="form-label">Quota</label>
+                                    <select class="form-control" id="utsQuota" required>
+                                        <option value="">Select Quota</option>
+                                        <option value="GN">General</option>
+                                        <option value="LD">Ladies</option>
+                                        <option value="SS">Senior Citizen</option>
+                                        <option value="HP">Handicapped</option>
+                                        <option value="ST">Student</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn--primary" onclick="goToStep(2)">
+                            Next: Passenger Details
+                        </button>
+                    </div>
+
+                    <!-- Step 2: Enhanced Passenger Details with Adult/Child Panel (Only for General) -->
+                    <div class="step-content hidden" id="utsStep2">
+                        <h3>Passenger Details</h3>
+                        
+                        <!-- Adult/Child Selection Panel (Only shown for General quota) -->
+                        <div class="passenger-type-panel" id="passengerTypePanel" style="display: none;">
+                            <div class="passenger-type-section">
+                                <div class="passenger-type-header">
+                                    <h4><i class="fas fa-user"></i> Adult Passengers (Age 12+)</h4>
+                                </div>
+                                <div class="passenger-count-controls">
+                                    <button type="button" class="count-btn" onclick="changePassengerCount('adult', -1)">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                    <span class="count-display" id="adultCount">1</span>
+                                    <button type="button" class="count-btn" onclick="changePassengerCount('adult', 1)">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                </div>
+                                <div class="passenger-fare">
+                                    <span>Adult Fare: <span id="adultFare">₹10</span></span>
+                                </div>
+                            </div>
+
+                            <div class="passenger-type-section">
+                                <div class="passenger-type-header">
+                                    <h4><i class="fas fa-child"></i> Child Passengers (Age 5-12)</h4>
+                                </div>
+                                <div class="passenger-count-controls">
+                                    <button type="button" class="count-btn" onclick="changePassengerCount('child', -1)">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                    <span class="count-display" id="childCount">0</span>
+                                    <button type="button" class="count-btn" onclick="changePassengerCount('child', 1)">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                </div>
+                                <div class="passenger-fare">
+                                    <span>Child Fare: <span id="childFare">₹5</span></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Standard passenger info for other quotas -->
+                        <div class="standard-passenger-info" id="standardPassengerInfo">
+                            <p style="text-align: center; color: var(--color-text-secondary); padding: 2rem;">
+                                Single passenger ticket will be generated for the selected quota.
+                            </p>
+                        </div>
+
+                        <div class="fare-calculation" id="utsFareSection">
+                            <div class="fare-breakdown">
+                                <div class="fare-item">
+                                    <span>Adult Tickets (<span id="adultTickets">1</span>):</span>
+                                    <span id="adultTotalFare">₹10</span>
+                                </div>
+                                <div class="fare-item">
+                                    <span>Child Tickets (<span id="childTickets">0</span>):</span>
+                                    <span id="childTotalFare">₹0</span>
+                                </div>
+                                <div class="fare-item">
+                                    <span>Service Charge:</span>
+                                    <span id="utsServiceCharge">₹10</span>
+                                </div>
+                                <div class="fare-item total">
+                                    <span>Total Amount:</span>
+                                    <span id="utsTotal">₹20</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="step-navigation">
+                            <button type="button" class="btn btn--outline" onclick="goToStep(1)">
+                                <i class="fas fa-arrow-left"></i> Back
+                            </button>
+                            <button type="button" class="btn btn--primary" onclick="goToStep(3)">
+                                Next: Payment
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Payment -->
+                    <div class="step-content hidden" id="utsStep3">
+                        <h3>Payment Method</h3>
+                        <div class="payment-methods">
+                            <div class="payment-method" data-method="card">
+                                <i class="fas fa-credit-card"></i>
+                                <span>Credit/Debit Card</span>
+                            </div>
+                            <div class="payment-method" data-method="upi">
+                                <i class="fas fa-mobile-alt"></i>
+                                <span>UPI</span>
+                            </div>
+                            <div class="payment-method" data-method="netbanking">
+                                <i class="fas fa-university"></i>
+                                <span>Net Banking</span>
+                            </div>
+                            <div class="payment-method" data-method="wallet">
+                                <i class="fas fa-wallet"></i>
+                                <span>Digital Wallet</span>
+                            </div>
+                        </div>
+
+                        <div class="payment-summary">
+                            <div class="summary-row">
+                                <span>Total Amount:</span>
+                                <span class="amount" id="finalAmount">₹20</span>
+                            </div>
+                        </div>
+
+                        <div class="step-navigation">
+                            <button type="button" class="btn btn--outline" onclick="goToStep(2)">
+                                <i class="fas fa-arrow-left"></i> Back
+                            </button>
+                            <button type="submit" class="btn btn--primary">
+                                <i class="fas fa-credit-card"></i> Pay & Generate Ticket
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Add Passenger Modal -->
+    <div class="modal hidden" id="addPassengerModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-user-plus"></i> Add New Passenger</h3>
+                <button class="modal-close" onclick="closeAddPassengerModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="addPassengerForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">First Name</label>
+                            <input type="text" class="form-control" id="passengerFirstName" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Last Name</label>
+                            <input type="text" class="form-control" id="passengerLastName" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Age</label>
+                            <input type="number" class="form-control" id="passengerAge" min="1" max="120" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Gender</label>
+                            <select class="form-control" id="passengerGender" required>
+                                <option value="">Select Gender</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Mobile Number</label>
+                        <input type="tel" class="form-control" id="passengerPhone" placeholder="Enter 10-digit mobile number" required>
+                    </div>
+                    <div class="modal-actions">
+                        <button type="button" class="btn btn--outline" onclick="closeAddPassengerModal()">Cancel</button>
+                        <button type="submit" class="btn btn--primary">
+                            <i class="fas fa-save"></i> Save Passenger
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Enhanced Ticket Modal with QR Code -->
+    <div class="modal hidden" id="ticketModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Ticket Details</h3>
+                <button class="modal-close" onclick="closeTicketModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body" id="ticketDetails">
+                <!-- Enhanced ticket details with QR code will be populated here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Payment Processing Modal -->
+    <div class="modal hidden" id="paymentModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Processing Payment</h3>
+            </div>
+            <div class="modal-body">
+                <div class="payment-processing">
+                    <div class="loading-spinner"></div>
+                    <p>Please wait while we process your payment...</p>
+                    <p class="processing-step" id="processingStep">Validating payment details...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast hidden" id="toast">
+        <div class="toast-content">
+            <i class="toast-icon"></i>
+            <span class="toast-message"></span>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
 </body>
 </html>
