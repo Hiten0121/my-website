@@ -297,44 +297,139 @@ const applicationData = {
 
   // Enhanced seat layouts with more detailed information
   seatLayouts: {
-    "2A": {
-      "name": "AC 2-Tier",
-      "totalSeats": 46,
-      "available": true,
-      "layout": [
-        {"bay": 1, "seats": [{"no": 1, "type": "LOWER"}, {"no": 2, "type": "UPPER"}], "side": [{"no": 5, "type": "S.LOWER"}, {"no": 6, "type": "S.UPPER"}]},
-        {"bay": 2, "seats": [{"no": 3, "type": "LOWER"}, {"no": 4, "type": "UPPER"}], "side": []},
-        {"bay": 3, "seats": [{"no": 7, "type": "LOWER"}, {"no": 8, "type": "UPPER"}], "side": [{"no": 11, "type": "S.LOWER"}, {"no": 12, "type": "S.UPPER"}]},
-        {"bay": 4, "seats": [{"no": 9, "type": "LOWER"}, {"no": 10, "type": "UPPER"}], "side": []},
-        {"bay": 5, "seats": [{"no": 13, "type": "LOWER"}, {"no": 14, "type": "UPPER"}], "side": [{"no": 17, "type": "S.LOWER"}, {"no": 18, "type": "S.UPPER"}]},
-        {"bay": 6, "seats": [{"no": 15, "type": "LOWER"}, {"no": 16, "type": "UPPER"}], "side": []}
-      ]
-    },
     "3A": {
-      "name": "AC 3-Tier", 
+      "name": "AC 3-Tier",
       "totalSeats": 64,
       "available": true,
       "layout": [
-        {"bay": 1, "seats": [{"no": 1, "type": "LOWER"}, {"no": 2, "type": "MIDDLE"}, {"no": 3, "type": "UPPER"}], "side": [{"no": 7, "type": "S.LOWER"}, {"no": 8, "type": "S.UPPER"}]},
-        {"bay": 2, "seats": [{"no": 4, "type": "LOWER"}, {"no": 5, "type": "MIDDLE"}, {"no": 6, "type": "UPPER"}], "side": []},
-        {"bay": 3, "seats": [{"no": 9, "type": "LOWER"}, {"no": 10, "type": "MIDDLE"}, {"no": 11, "type": "UPPER"}], "side": [{"no": 15, "type": "S.LOWER"}, {"no": 16, "type": "S.UPPER"}]},
-        {"bay": 4, "seats": [{"no": 12, "type": "LOWER"}, {"no": 13, "type": "MIDDLE"}, {"no": 14, "type": "UPPER"}], "side": []},
-        {"bay": 5, "seats": [{"no": 17, "type": "LOWER"}, {"no": 18, "type": "MIDDLE"}, {"no": 19, "type": "UPPER"}], "side": [{"no": 23, "type": "S.LOWER"}, {"no": 24, "type": "S.UPPER"}]}
+        {"bay": 1, "seats": [{"no": 1, "type": "LOWER"}, {"no": 2, "type": "MIDDLE"}, {"no": 3, "type": "UPPER"}], "side": [{"no": 7, "type": "S.LOWER"}]},
+        {"bay": 2, "seats": [{"no": 4, "type": "LOWER"}, {"no": 5, "type": "MIDDLE"}, {"no": 6, "type": "UPPER"}], "side": [{"no": 8, "type": "S.UPPER"}]},
+        {"bay": 3, "seats": [{"no": 9, "type": "LOWER"}, {"no": 10, "type": "MIDDLE"}, {"no": 11, "type": "UPPER"}], "side": [{"no": 15, "type": "S.LOWER"}]},
+        {"bay": 4, "seats": [{"no": 12, "type": "LOWER"}, {"no": 13, "type": "MIDDLE"}, {"no": 14, "type": "UPPER"}], "side": [{"no": 16, "type": "S.UPPER"}]},
+        {"bay": 5, "seats": [{"no": 17, "type": "LOWER"}, {"no": 18, "type": "MIDDLE"}, {"no": 19, "type": "UPPER"}], "side": [{"no": 23, "type": "S.LOWER"}]},
+        {"bay": 6, "seats": [{"no": 20, "type": "LOWER"}, {"no": 21, "type": "MIDDLE"}, {"no": 22, "type": "UPPER"}], "side": [{"no": 24, "type": "S.UPPER"}]},
+        {"bay": 7, "seats": [{"no": 25, "type": "LOWER"}, {"no": 26, "type": "MIDDLE"}, {"no": 27, "type": "UPPER"}], "side": [{"no": 31, "type": "S.LOWER"}]},
+        {"bay": 8, "seats": [{"no": 28, "type": "LOWER"}, {"no": 29, "type": "MIDDLE"}, {"no": 30, "type": "UPPER"}], "side": [{"no": 32, "type": "S.UPPER"}]},
+        {"bay": 9, "seats": [{"no": 33, "type": "LOWER"}, {"no": 34, "type": "MIDDLE"}, {"no": 35, "type": "UPPER"}], "side": [{"no": 39, "type": "S.LOWER"}]},
+        {"bay": 10, "seats": [{"no": 36, "type": "LOWER"}, {"no": 37, "type": "MIDDLE"}, {"no": 38, "type": "UPPER"}], "side": [{"no": 40, "type": "S.UPPER"}]},
+        {"bay": 11, "seats": [{"no": 41, "type": "LOWER"}, {"no": 42, "type": "MIDDLE"}, {"no": 43, "type": "UPPER"}], "side": [{"no": 47, "type": "S.LOWER"}]},
+        {"bay": 12, "seats": [{"no": 44, "type": "LOWER"}, {"no": 45, "type": "MIDDLE"}, {"no": 46, "type": "UPPER"}], "side": [{"no": 48, "type": "S.UPPER"}]},
+        {"bay": 13, "seats": [{"no": 49, "type": "LOWER"}, {"no": 50, "type": "MIDDLE"}, {"no": 51, "type": "UPPER"}], "side": [{"no": 55, "type": "S.LOWER"}]},
+        {"bay": 14, "seats": [{"no": 52, "type": "LOWER"}, {"no": 53, "type": "MIDDLE"}, {"no": 54, "type": "UPPER"}], "side": [{"no": 56, "type": "S.UPPER"}]},
+        {"bay": 15, "seats": [{"no": 57, "type": "LOWER"}, {"no": 58, "type": "MIDDLE"}, {"no": 59, "type": "UPPER"}], "side": [{"no": 63, "type": "S.LOWER"}]},
+        {"bay": 16, "seats": [{"no": 60, "type": "LOWER"}, {"no": 61, "type": "MIDDLE"}, {"no": 62, "type": "UPPER"}], "side": [{"no": 64, "type": "S.UPPER"}]}
+      ]
+    },
+    "2A": {
+      "name": "AC 2-Tier", 
+      "totalSeats": 46,
+      "available": true,
+      "layout": [
+        {"bay": 1, "seats": [{"no": 1, "type": "LOWER"}, {"no": 2, "type": "UPPER"}], "side": [{"no": 5, "type": "S.LOWER"}]},
+        {"bay": 2, "seats": [{"no": 3, "type": "LOWER"}, {"no": 4, "type": "UPPER"}], "side": [{"no": 6, "type": "S.UPPER"}]},
+        {"bay": 3, "seats": [{"no": 7, "type": "LOWER"}, {"no": 8, "type": "UPPER"}], "side": [{"no": 11, "type": "S.LOWER"}]},
+        {"bay": 4, "seats": [{"no": 9, "type": "LOWER"}, {"no": 10, "type": "UPPER"}], "side": [{"no": 12, "type": "S.UPPER"}]},
+        {"bay": 5, "seats": [{"no": 13, "type": "LOWER"}, {"no": 14, "type": "UPPER"}], "side": [{"no": 17, "type": "S.LOWER"}]},
+        {"bay": 6, "seats": [{"no": 15, "type": "LOWER"}, {"no": 16, "type": "UPPER"}], "side": [{"no": 18, "type": "S.UPPER"}]},
+        {"bay": 7, "seats": [{"no": 19, "type": "LOWER"}, {"no": 20, "type": "UPPER"}], "side": [{"no": 23, "type": "S.LOWER"}]},
+        {"bay": 8, "seats": [{"no": 21, "type": "LOWER"}, {"no": 22, "type": "UPPER"}], "side": [{"no": 24, "type": "S.UPPER"}]},
+        {"bay": 9, "seats": [{"no": 25, "type": "LOWER"}, {"no": 26, "type": "UPPER"}], "side": [{"no": 29, "type": "S.LOWER"}]},
+        {"bay": 10, "seats": [{"no": 27, "type": "LOWER"}, {"no": 28, "type": "UPPER"}], "side": [{"no": 30, "type": "S.UPPER"}]},
+        {"bay": 11, "seats": [{"no": 31, "type": "LOWER"}, {"no": 32, "type": "UPPER"}], "side": [{"no": 35, "type": "S.LOWER"}]},
+        {"bay": 12, "seats": [{"no": 33, "type": "LOWER"}, {"no": 34, "type": "UPPER"}], "side": [{"no": 36, "type": "S.UPPER"}]},
+        {"bay": 13, "seats": [{"no": 37, "type": "LOWER"}, {"no": 38, "type": "UPPER"}], "side": [{"no": 41, "type": "S.LOWER"}]},
+        {"bay": 14, "seats": [{"no": 39, "type": "LOWER"}, {"no": 40, "type": "UPPER"}], "side": [{"no": 42, "type": "S.UPPER"}]},
+        {"bay": 15, "seats": [{"no": 43, "type": "LOWER"}, {"no": 44, "type": "UPPER"}], "side": [{"no": 45, "type": "S.LOWER"}]},
+        {"bay": 16, "seats": [], "side": [{"no": 46, "type": "S.UPPER"}]}
       ]
     },
     "1A": {
       "name": "AC 1st Class",
-      "totalSeats": 18,
+      "totalSeats": 22,
       "available": true,
       "layout": [
         {"bay": 1, "seats": [{"no": 1, "type": "LOWER"}, {"no": 2, "type": "UPPER"}], "side": []},
         {"bay": 2, "seats": [{"no": 3, "type": "LOWER"}, {"no": 4, "type": "UPPER"}], "side": []},
         {"bay": 3, "seats": [{"no": 5, "type": "LOWER"}, {"no": 6, "type": "UPPER"}], "side": []},
-        {"bay": 4, "seats": [{"no": 7, "type": "LOWER"}, {"no": 8, "type": "UPPER"}], "side": []}
+        {"bay": 4, "seats": [{"no": 7, "type": "LOWER"}, {"no": 8, "type": "UPPER"}], "side": []},
+        {"bay": 5, "seats": [{"no": 9, "type": "LOWER"}, {"no": 10, "type": "UPPER"}], "side": []},
+        {"bay": 6, "seats": [{"no": 11, "type": "LOWER"}, {"no": 12, "type": "UPPER"}], "side": []},
+        {"bay": 7, "seats": [{"no": 13, "type": "LOWER"}, {"no": 14, "type": "UPPER"}], "side": []},
+        {"bay": 8, "seats": [{"no": 15, "type": "LOWER"}, {"no": 16, "type": "UPPER"}], "side": []},
+        {"bay": 9, "seats": [{"no": 17, "type": "LOWER"}, {"no": 18, "type": "UPPER"}], "side": []},
+        {"bay": 10, "seats": [{"no": 19, "type": "LOWER"}, {"no": 20, "type": "UPPER"}], "side": []},
+        {"bay": 11, "seats": [{"no": 21, "type": "LOWER"}, {"no": 22, "type": "UPPER"}], "side": []}
+      ]
+    },
+    "SL": {
+      "name": "Sleeper",
+      "totalSeats": 72,
+      "available": true,
+      "layout": [
+        {"bay": 1, "seats": [{"no": 1, "type": "LOWER"}, {"no": 2, "type": "MIDDLE"}, {"no": 3, "type": "UPPER"}], "side": [{"no": 7, "type": "S.LOWER"}]},
+        {"bay": 2, "seats": [{"no": 4, "type": "LOWER"}, {"no": 5, "type": "MIDDLE"}, {"no": 6, "type": "UPPER"}], "side": [{"no": 8, "type": "S.UPPER"}]},
+        {"bay": 3, "seats": [{"no": 9, "type": "LOWER"}, {"no": 10, "type": "MIDDLE"}, {"no": 11, "type": "UPPER"}], "side": [{"no": 15, "type": "S.LOWER"}]},
+        {"bay": 4, "seats": [{"no": 12, "type": "LOWER"}, {"no": 13, "type": "MIDDLE"}, {"no": 14, "type": "UPPER"}], "side": [{"no": 16, "type": "S.UPPER"}]},
+        {"bay": 5, "seats": [{"no": 17, "type": "LOWER"}, {"no": 18, "type": "MIDDLE"}, {"no": 19, "type": "UPPER"}], "side": [{"no": 23, "type": "S.LOWER"}]},
+        {"bay": 6, "seats": [{"no": 20, "type": "LOWER"}, {"no": 21, "type": "MIDDLE"}, {"no": 22, "type": "UPPER"}], "side": [{"no": 24, "type": "S.UPPER"}]},
+        {"bay": 7, "seats": [{"no": 25, "type": "LOWER"}, {"no": 26, "type": "MIDDLE"}, {"no": 27, "type": "UPPER"}], "side": [{"no": 31, "type": "S.LOWER"}]},
+        {"bay": 8, "seats": [{"no": 28, "type": "LOWER"}, {"no": 29, "type": "MIDDLE"}, {"no": 30, "type": "UPPER"}], "side": [{"no": 32, "type": "S.UPPER"}]},
+        {"bay": 9, "seats": [{"no": 33, "type": "LOWER"}, {"no": 34, "type": "MIDDLE"}, {"no": 35, "type": "UPPER"}], "side": [{"no": 39, "type": "S.LOWER"}]},
+        {"bay": 10, "seats": [{"no": 36, "type": "LOWER"}, {"no": 37, "type": "MIDDLE"}, {"no": 38, "type": "UPPER"}], "side": [{"no": 40, "type": "S.UPPER"}]},
+        {"bay": 11, "seats": [{"no": 41, "type": "LOWER"}, {"no": 42, "type": "MIDDLE"}, {"no": 43, "type": "UPPER"}], "side": [{"no": 47, "type": "S.LOWER"}]},
+        {"bay": 12, "seats": [{"no": 44, "type": "LOWER"}, {"no": 45, "type": "MIDDLE"}, {"no": 46, "type": "UPPER"}], "side": [{"no": 48, "type": "S.UPPER"}]},
+        {"bay": 13, "seats": [{"no": 49, "type": "LOWER"}, {"no": 50, "type": "MIDDLE"}, {"no": 51, "type": "UPPER"}], "side": [{"no": 55, "type": "S.LOWER"}]},
+        {"bay": 14, "seats": [{"no": 52, "type": "LOWER"}, {"no": 53, "type": "MIDDLE"}, {"no": 54, "type": "UPPER"}], "side": [{"no": 56, "type": "S.UPPER"}]},
+        {"bay": 15, "seats": [{"no": 57, "type": "LOWER"}, {"no": 58, "type": "MIDDLE"}, {"no": 59, "type": "UPPER"}], "side": [{"no": 63, "type": "S.LOWER"}]},
+        {"bay": 16, "seats": [{"no": 60, "type": "LOWER"}, {"no": 61, "type": "MIDDLE"}, {"no": 62, "type": "UPPER"}], "side": [{"no": 64, "type": "S.UPPER"}]},
+        {"bay": 17, "seats": [{"no": 65, "type": "LOWER"}, {"no": 66, "type": "MIDDLE"}, {"no": 67, "type": "UPPER"}], "side": [{"no": 71, "type": "S.LOWER"}]},
+        {"bay": 18, "seats": [{"no": 68, "type": "LOWER"}, {"no": 69, "type": "MIDDLE"}, {"no": 70, "type": "UPPER"}], "side": [{"no": 72, "type": "S.UPPER"}]},
+      ]
+    },
+    "EC": {
+      "name": "Executive Chair class",
+      "totalSeats": 46,
+      "available": true,
+      "layout": [
+        {"bay": 1, "seats": [{"no": 1, "type": "WINDOW"}, {"no": 2, "type": "AISLE"}], "side": [{"no": 3, "type": "S.AISLE"}, {"no": 4, "type": "S.WINDOW"}]},
+        {"bay": 2, "seats": [{"no": 5, "type": "WINDOW"}, {"no": 6, "type": "AISLE"}], "side": [{"no": 7, "type": "S.AISLE"}, {"no": 8, "type": "S.Window"}]},
+        {"bay": 3, "seats": [{"no": 9, "type": "WINDOW"}, {"no": 10, "type": "AISLE"}], "side": [{"no": 11, "type": "S.AISLE"}, {"no": 12, "type": "S.WINDOW"}]},
+        {"bay": 4, "seats": [{"no": 13, "type": "WINDOW"}, {"no": 14, "type": "AISLE"}], "side": [{"no": 15, "type": "S.AISLE"}, {"no": 16, "type": "S.Window"}]},
+        {"bay": 5, "seats": [{"no": 17, "type": "WINDOW"}, {"no": 18, "type": "AISLE"}], "side": [{"no": 19, "type": "S.AISLE"}, {"no": 20, "type": "S.WINDOW"}]},
+        {"bay": 6, "seats": [{"no": 21, "type": "WINDOW"}, {"no": 22, "type": "AISLE"}], "side": [{"no": 23, "type": "S.AISLE"}, {"no": 24, "type": "S.Window"}]},
+        {"bay": 7, "seats": [{"no": 25, "type": "WINDOW"}, {"no": 26, "type": "AISLE"}], "side": [{"no": 27, "type": "S.AISLE"}, {"no": 28, "type": "S.WINDOW"}]},
+        {"bay": 8, "seats": [{"no": 29, "type": "WINDOW"}, {"no": 30, "type": "AISLE"}], "side": [{"no": 31, "type": "S.AISLE"}, {"no": 32, "type": "S.Window"}]},
+        {"bay": 9, "seats": [{"no": 33, "type": "WINDOW"}, {"no": 34, "type": "AISLE"}], "side": [{"no": 35, "type": "S.AISLE"}, {"no": 36, "type": "S.WINDOW"}]},
+        {"bay": 10, "seats": [{"no": 37, "type": "WINDOW"}, {"no": 38, "type": "AISLE"}], "side": [{"no": 39, "type": "S.AISLE"}, {"no": 40, "type": "S.Window"}]},
+        {"bay": 11, "seats": [{"no": 41, "type": "WINDOW"}, {"no": 42, "type": "AISLE"}], "side": [{"no": 43, "type": "S.AISLE"}, {"no": 44, "type": "S.WINDOW"}]},
+        {"bay": 12, "seats": [{"no": 45, "type": "WINDOW"}, {"no": 46, "type": "AISLE"}], "side": []}
+      ]
+    },
+    "CC": {
+      "name": "AC Chair Car",
+      "totalSeats": 78,
+      "available": true,
+      "layout": [
+        {"bay": 1, "seats": [{"no": 1, "type": "WINDOW"}, {"no": 2, "type": "AISLE"}], "side": [{"no": 3, "type": "S.AISLE"}, {"no": 4, "type": "S.WINDOW"}]},
+        {"bay": 2, "seats": [{"no": 5, "type": "WINDOW"}, {"no": 6, "type": "AISLE"}, {"no": 7, "type": "AISLE"}], "side": [{"no": 8, "type": "S.AISLE"}, {"no": 9, "type": "S.Window"}]},
+        {"bay": 3, "seats": [{"no": 10, "type": "WINDOW"}, {"no": 11, "type": "AISLE"}, {"no": 12, "type": "AISLE"}], "side": [{"no": 13, "type": "S.AISLE"}, {"no": 14, "type": "S.WINDOW"}]},
+        {"bay": 4, "seats": [{"no": 15, "type": "WINDOW"}, {"no": 16, "type": "AISLE"}, {"no": 17, "type": "AISLE"}], "side": [{"no": 18, "type": "S.AISLE"}, {"no": 19, "type": "S.Window"}]},
+        {"bay": 5, "seats": [{"no": 20, "type": "WINDOW"}, {"no": 21, "type": "AISLE"}, {"no": 22, "type": "AISLE"}], "side": [{"no": 23, "type": "S.AISLE"}, {"no": 24, "type": "S.WINDOW"}]},
+        {"bay": 6, "seats": [{"no": 25, "type": "WINDOW"}, {"no": 26, "type": "AISLE"}, {"no": 27, "type": "AISLE"}], "side": [{"no": 28, "type": "S.AISLE"}, {"no": 29, "type": "S.Window"}]},
+        {"bay": 7, "seats": [{"no": 30, "type": "WINDOW"}, {"no": 31, "type": "AISLE"}, {"no": 32, "type": "AISLE"}], "side": [{"no": 33, "type": "S.AISLE"}, {"no": 34, "type": "S.WINDOW"}]},
+        {"bay": 8, "seats": [{"no": 35, "type": "WINDOW"}, {"no": 36, "type": "AISLE"}, {"no": 37, "type": "AISLE"}], "side": [{"no": 38, "type": "S.AISLE"}, {"no": 39, "type": "S.Window"}]},
+        {"bay": 9, "seats": [{"no": 40, "type": "WINDOW"}, {"no": 41, "type": "AISLE"}, {"no": 42, "type": "AISLE"}], "side": [{"no": 43, "type": "S.AISLE"}, {"no": 44, "type": "S.WINDOW"}]},
+        {"bay": 10, "seats": [{"no": 45, "type": "WINDOW"}, {"no": 46, "type": "AISLE"}, {"no": 47, "type": "AISLE"}], "side": [{"no": 48, "type": "S.AISLE"}, {"no": 49, "type": "S.Window"}]},
+        {"bay": 11, "seats": [{"no": 50, "type": "WINDOW"}, {"no": 51, "type": "AISLE"}, {"no": 52, "type": "AISLE"}], "side": [{"no": 53, "type": "S.AISLE"}, {"no": 54, "type": "S.WINDOW"}]},
+        {"bay": 12, "seats": [{"no": 55, "type": "WINDOW"}, {"no": 56, "type": "AISLE"},{"no": 57, "type": "AISLE"}], "side": [{"no": 58, "type": "S.AISLE"}, {"no": 59, "type": "S.WINDOW"}]},
+        {"bay": 13, "seats": [{"no": 60, "type": "WINDOW"}, {"no": 61, "type": "AISLE"}, {"no": 62, "type": "AISLE"}], "side": [{"no": 63, "type": "S.AISLE"}, {"no": 64, "type": "S.WINDOW"}]},
+        {"bay": 14, "seats": [{"no": 65, "type": "WINDOW"}, {"no": 66, "type": "AISLE"},{"no": 67, "type": "AISLE"}], "side": [{"no": 68, "type": "S.AISLE"}, {"no": 69, "type": "S.WINDOW"}]},
+        {"bay": 15, "seats": [{"no": 70, "type": "WINDOW"}, {"no": 71, "type": "AISLE"}, {"no": 72, "type": "AISLE"}], "side": [{"no": 73, "type": "S.AISLE"}, {"no": 74, "type": "S.WINDOW"}]},
+        {"bay": 16, "seats": [{"no": 75, "type": "WINDOW"}, {"no": 76, "type": "AISLE"}], "side": [{"no": 77, "type": "S.AISLE"}, {"no": 78, "type": "S.WINDOW"}]}
       ]
     }
   },
-
+  
   paymentMethods: [
     {"type": "card", "name": "Credit/Debit Card", "icon": "fas fa-credit-card"},
     {"type": "upi", "name": "UPI", "icon": "fas fa-mobile-alt"},
