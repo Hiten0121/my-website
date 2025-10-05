@@ -141,9 +141,11 @@ const applicationData = {
         "index": 2
       },
       "coaches": [
-        {"code": "1A", "name": "AC 1st Class", "seats": 18, "fare": 4500, "layoutAvailable": true},
+        {"code": "1A", "name": "AC 1st Class", "seats": 22, "fare": 4500, "layoutAvailable": true},
         {"code": "2A", "name": "AC 2-Tier", "seats": 46, "fare": 1850, "layoutAvailable": true},
-        {"code": "3A", "name": "AC 3-Tier", "seats": 64, "fare": 1200, "layoutAvailable": true}
+        {"code": "3A", "name": "AC 3-Tier", "seats": 64, "fare": 1200, "layoutAvailable": true},
+        {"code": "SL", "name": "Sleeper", "seats": 72, "fare": 420, "layoutAvailable": true},
+        {"code": "GS", "name": "Gerenal", "layoutAvailable": false}
       ]
     },
     {
@@ -162,8 +164,9 @@ const applicationData = {
         "index": 5
       },
       "coaches": [
-        {"code": "CC", "name": "AC Chair Car", "seats": 75, "fare": 750, "layoutAvailable": false},
-        {"code": "EC", "name": "Executive Chair", "seats": 56, "fare": 1500, "layoutAvailable": false}
+        {"code": "CC", "name": "AC Chair Car", "seats": 75, "fare": 1500, "layoutAvailable": true},
+        {"code": "EC", "name": "Executive Chair", "seats": 46, "fare": 750, "layoutAvailable": true},
+        {"code": "GS", "name": "Gerenal", "layoutAvailable": false}
       ]
     },
     {
@@ -184,7 +187,8 @@ const applicationData = {
       "coaches": [
         {"code": "2A", "name": "AC 2-Tier", "seats": 46, "fare": 1650, "layoutAvailable": true},
         {"code": "3A", "name": "AC 3-Tier", "seats": 64, "fare": 1100, "layoutAvailable": true},
-        {"code": "SL", "name": "Sleeper", "seats": 72, "fare": 485, "layoutAvailable": false}
+        {"code": "SL", "name": "Sleeper", "seats": 72, "fare": 485, "layoutAvailable": true},
+        {"code": "GS", "name": "Gerenal", "layoutAvailable": false}
       ]
     },
     {
@@ -203,8 +207,9 @@ const applicationData = {
         "index": 1
       },
       "coaches": [
-        {"code": "CC", "name": "AC Chair Car", "seats": 78, "fare": 685, "layoutAvailable": false},
-        {"code": "EC", "name": "Executive Chair", "seats": 52, "fare": 1250, "layoutAvailable": false}
+        {"code": "CC", "name": "AC Chair Car", "seats": 78, "fare": 1250, "layoutAvailable": true},
+        {"code": "EC", "name": "Executive Chair", "seats": 46, "fare": 685, "layoutAvailable": true},
+        {"code": "GS", "name": "Gerenal", "layoutAvailable": false}
       ]
     },
     {
@@ -223,8 +228,9 @@ const applicationData = {
         "index": 2
       },
       "coaches": [
-        {"code": "GS", "name": "General Second", "seats": 100, "fare": 15, "layoutAvailable": false},
-        {"code": "SL", "name": "Second Class", "seats": 80, "fare": 25, "layoutAvailable": false}
+        {"code": "GS", "name": "General Second", "layoutAvailable": false},
+        {"code": "SL", "name": "Second Class", "seats": 72, "fare": 25, "layoutAvailable": true},
+        {"code": "CC", "name": "AC Chair Car", "seats": 78, "fare": 685, "layoutAvailable": true},
       ]
     },
     {
@@ -243,13 +249,14 @@ const applicationData = {
         "index": 3
       },
       "coaches": [
-        {"code": "2A", "name": "AC 2-Tier", "seats": 48, "fare": 2850, "layoutAvailable": true},
+        {"code": "2A", "name": "AC 2-Tier", "seats": 46, "fare": 2850, "layoutAvailable": true},
         {"code": "3A", "name": "AC 3-Tier", "seats": 64, "fare": 1980, "layoutAvailable": true},
-        {"code": "SL", "name": "Sleeper", "seats": 72, "fare": 685, "layoutAvailable": false}
+        {"code": "SL", "name": "Sleeper", "seats": 72, "fare": 685, "layoutAvailable": true},
+        {"code": "GS", "name": "Gerenal", "layoutAvailable": false}
       ]
     }
   ],
-
+  
   // Enhanced tracking data with complete route information
   enhancedTrackingData: [
     {
