@@ -2548,7 +2548,7 @@ function selectCoach(coach, coachNumber) {
   event.target.closest('.coach').classList.add('active');
   
   // Check if coach is Chair Car or General - redirect to UTS
-  if (coach.code === 'CC' || coach.code === 'GS' || coach.code === 'SL' || coach.code === 'EC') {
+  if (coach.code === 'GS') {
     showToast('Chair class and General trains - Redirecting to UTS booking', 'info');
     setTimeout(() => {
       redirectToUTS();
