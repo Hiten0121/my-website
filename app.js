@@ -594,30 +594,66 @@ document.addEventListener('DOMContentLoaded', function() {
   initializeAuth();
   initializeProfile();
   initializeUTSEnhancements();
+  setupPassengerFormNavigation();
 });
 
+// function initializeApp() {
+//   // Set minimum date for journey date (today)
+//   const today = new Date().toISOString().split('T')[0];
+//   const journeyDateInput = document.getElementById('journeyDate');
+  
+//   if (journeyDateInput) {
+//     journeyDateInput.min = today;
+//     // Set default to tomorrow
+//     const tomorrow = new Date();
+//     tomorrow.setDate(tomorrow.getDate() + 1);
+//     const tomorrowString = tomorrow.toISOString().split('T')[0];
+//     journeyDateInput.value = tomorrowString;
+//     currentBookingData.journeyDate = tomorrowString;
+//   }
+  
+//   // Show home section by default
+//   showSection('home');
+  
+//   // Initialize booking history
+//   displayBookingHistory();
+  
+//   console.log('AI-Enhanced Railway System with Enhanced UTS, Date Selection, Dynamic Fare Calculation, and QR Code Generation Loaded Successfully!');
+// }
+
+// Initialize app with proper hiding
 function initializeApp() {
-  // Set minimum date for journey date (today)
-  const today = new Date().toISOString().split('T')[0];
-  const journeyDateInput = document.getElementById('journeyDate');
-  
-  if (journeyDateInput) {
-    journeyDateInput.min = today;
-    // Set default to tomorrow
-    const tomorrow = new Date();
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    const tomorrowString = tomorrow.toISOString().split('T')[0];
-    journeyDateInput.value = tomorrowString;
-    currentBookingData.journeyDate = tomorrowString;
-  }
-  
-  // Show home section by default
-  showSection('home');
-  
-  // Initialize booking history
-  displayBookingHistory();
-  
-  console.log('AI-Enhanced Railway System with Enhanced UTS, Date Selection, Dynamic Fare Calculation, and QR Code Generation Loaded Successfully!');
+    // Set minimum date for journey date (today)
+    const today = new Date().toISOString().split('T')[0];
+    const journeyDateInput = document.getElementById('journeyDate');
+
+    if (journeyDateInput) {
+        journeyDateInput.min = today;
+        // Set default to tomorrow
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        const tomorrowString = tomorrow.toISOString().split('T')[0];
+        journeyDateInput.value = tomorrowString;
+        currentBookingData.journeyDate = tomorrowString;
+    }
+
+    // CRITICAL: Force hide passenger section on app initialization
+    const passengerSection = document.getElementById('passenger-section');
+    if (passengerSection) {
+        passengerSection.classList.add('hidden');
+        passengerSection.style.display = 'none !important';
+        passengerSection.style.visibility = 'hidden !important';
+        passengerSection.style.opacity = '0 !important';
+        console.log('✅ Passenger section FORCED hidden on app init');
+    }
+
+    // Show home section by default
+    showSection('home');
+
+    // Initialize booking history
+    displayBookingHistory();
+
+    console.log('🚀 AI-Enhanced Railway System - Passenger Section Fixed - Loaded Successfully!');
 }
 
 // Enhanced UTS initialization
@@ -1587,32 +1623,74 @@ function handleFeatureCardClick(targetSection) {
   }
 }
 
+// function navigateToSection(sectionId) {
+//   console.log(`Navigating to section: ${sectionId}`);
+//   showSection(sectionId);
+  
+//   // Update active nav link
+//   document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+//   const navLink = document.querySelector(`[data-section="${sectionId}"]`);
+//   if (navLink) {
+//     navLink.classList.add('active');
+//   }
+  
+//   // Close mobile menu if open
+//   const navMenu = document.getElementById('navMenu');
+//   if (navMenu && navMenu.classList.contains('active')) {
+//     navMenu.classList.remove('active');
+//     const navToggle = document.getElementById('navToggle');
+//     const icon = navToggle?.querySelector('i');
+//     if (icon) {
+//       icon.classList.replace('fa-times', 'fa-bars');
+//     }
+//   }
+  
+//   // Scroll to top
+//   window.scrollTo({ top: 0, behavior: 'smooth' });
+  
+//   showToast(`Navigated to ${getSectionDisplayName(sectionId)}`, 'info');
+// }
+
+// Enhanced navigation function
 function navigateToSection(sectionId) {
-  console.log(`Navigating to section: ${sectionId}`);
-  showSection(sectionId);
-  
-  // Update active nav link
-  document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-  const navLink = document.querySelector(`[data-section="${sectionId}"]`);
-  if (navLink) {
-    navLink.classList.add('active');
-  }
-  
-  // Close mobile menu if open
-  const navMenu = document.getElementById('navMenu');
-  if (navMenu && navMenu.classList.contains('active')) {
-    navMenu.classList.remove('active');
-    const navToggle = document.getElementById('navToggle');
-    const icon = navToggle?.querySelector('i');
-    if (icon) {
-      icon.classList.replace('fa-times', 'fa-bars');
+    console.log(`🧭 Navigating to section: ${sectionId}`);
+
+    // FORCE hide passenger section before any navigation
+    const passengerSection = document.getElementById('passenger-section');
+    if (passengerSection) {
+        passengerSection.classList.add('hidden');
+        passengerSection.classList.remove('active', 'visible');
+        passengerSection.style.display = 'none !important';
+        passengerSection.style.visibility = 'hidden !important';
+        passengerSection.style.opacity = '0 !important';
+        console.log('✅ Passenger section FORCED hidden during navigation');
     }
-  }
-  
-  // Scroll to top
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-  
-  showToast(`Navigated to ${getSectionDisplayName(sectionId)}`, 'info');
+
+    // Show the target section
+    showSection(sectionId);
+
+    // Update active nav link
+    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+    const navLink = document.querySelector(`[data-section="${sectionId}"]`);
+    if (navLink) {
+        navLink.classList.add('active');
+    }
+
+    // Close mobile menu if open
+    const navMenu = document.getElementById('navMenu');
+    if (navMenu && navMenu.classList.contains('active')) {
+        navMenu.classList.remove('active');
+        const navToggle = document.getElementById('navToggle');
+        const icon = navToggle?.querySelector('i');
+        if (icon) {
+            icon.classList.replace('fa-times', 'fa-bars');
+        }
+    }
+
+    // Scroll to top
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    showToast(`Navigated to ${getSectionDisplayName(sectionId)}`, 'info');
 }
 
 function getSectionDisplayName(sectionId) {
@@ -1750,25 +1828,39 @@ function setupSectionNavigation() {
   }
 }
 
+// function handleNavLinkClick(e) {
+//   e.preventDefault();
+//   e.stopPropagation();
+  
+//   const section = this.getAttribute('data-section');
+//   console.log('Nav link clicked for section:', section);
+  
+//   if (!section) {
+//     console.error('No section specified for nav link');
+//     return;
+//   }
+  
+//   // Check if trying to access profile without login
+//   if (section === 'profile' && !isLoggedIn) {
+//     showToast('Please login first to access your profile', 'info');
+//     showAuthModal('loginModal');
+//     return;
+//   }
+  
+//   navigateToSection(section);
+// }
+
 function handleNavLinkClick(e) {
   e.preventDefault();
-  e.stopPropagation();
-  
-  const section = this.getAttribute('data-section');
-  console.log('Nav link clicked for section:', section);
-  
-  if (!section) {
-    console.error('No section specified for nav link');
-    return;
-  }
-  
-  // Check if trying to access profile without login
-  if (section === 'profile' && !isLoggedIn) {
-    showToast('Please login first to access your profile', 'info');
+  const section = this.dataset.section;
+
+  // Prevent access to booking if not logged in
+  if (section === 'booking' && !isLoggedIn) {
+    showToast('Please login first to make a booking.', 'info');
     showAuthModal('loginModal');
     return;
   }
-  
+
   navigateToSection(section);
 }
 
@@ -1793,62 +1885,141 @@ function handleVoiceAssistantClick(e) {
   openVoicePanel();
 }
 
+// function showSection(sectionId) {
+//   console.log('Showing section:', sectionId);
+  
+//   // Hide all sections
+//   document.querySelectorAll('.section').forEach(section => {
+//     section.classList.remove('active');
+//   });
+  
+//   // Show selected section
+//   const targetSection = document.getElementById(sectionId);
+//   if (targetSection) {
+//     targetSection.classList.add('active');
+//     console.log('Section displayed:', sectionId);
+//   } else {
+//     console.error('Section not found:', sectionId);
+//     return;
+//   }
+  
+//   // Handle specific section initialization
+//   if (sectionId === 'booking') {
+//     showTrainResults();
+//   } else if (sectionId === 'profile') {
+//     if (!isLoggedIn) {
+//       showToast('Please login first to access your profile', 'info');
+//       showAuthModal('loginModal');
+//       return;
+//     }
+//     displayBookingHistory();
+//     showProfileTab('dashboard');
+//   } else if (sectionId === 'pnr') {
+//     // Reset PNR form
+//     const pnrForm = document.getElementById('pnrForm');
+//     if (pnrForm) {
+//       pnrForm.reset();
+//     }
+//     const pnrResults = document.getElementById('pnrResults');
+//     if (pnrResults) {
+//       pnrResults.classList.add('hidden');
+//     }
+//   } else if (sectionId === 'tracking') {
+//     // Reset tracking form only if not coming from a direct track action
+//     if (!window.skipTrackingReset) {
+//       const trackingForm = document.getElementById('trackingForm');
+//       if (trackingForm) {
+//         trackingForm.reset();
+//       }
+//       const trackingResults = document.getElementById('trackingResults');
+//       if (trackingResults) {
+//         trackingResults.classList.add('hidden');
+//       }
+//     }
+//     window.skipTrackingReset = false;
+//   } else if (sectionId === 'uts') {
+//     // Reset UTS to step 1 when navigating to UTS
+//     goToStep(1);
+//   }
+// }
+
+// Enhanced showSection function that FORCES passenger section to be hidden
 function showSection(sectionId) {
-  console.log('Showing section:', sectionId);
-  
-  // Hide all sections
-  document.querySelectorAll('.section').forEach(section => {
-    section.classList.remove('active');
-  });
-  
-  // Show selected section
-  const targetSection = document.getElementById(sectionId);
-  if (targetSection) {
-    targetSection.classList.add('active');
-    console.log('Section displayed:', sectionId);
-  } else {
-    console.error('Section not found:', sectionId);
-    return;
-  }
-  
-  // Handle specific section initialization
-  if (sectionId === 'booking') {
-    showTrainResults();
-  } else if (sectionId === 'profile') {
-    if (!isLoggedIn) {
-      showToast('Please login first to access your profile', 'info');
-      showAuthModal('loginModal');
-      return;
+    console.log('🔄 Showing section:', sectionId);
+
+    // STEP 1: Hide ALL sections first
+    document.querySelectorAll('.section').forEach(section => {
+        section.classList.remove('active');
+        section.classList.add('hidden');
+        section.style.display = 'none';
+        section.style.visibility = 'hidden';
+        section.style.opacity = '0';
+    });
+
+    // STEP 2: FORCE hide passenger section specifically
+    const passengerSection = document.getElementById('passenger-section');
+    if (passengerSection) {
+        passengerSection.classList.add('hidden');
+        passengerSection.classList.remove('active', 'visible');
+        passengerSection.style.display = 'none !important';
+        passengerSection.style.visibility = 'hidden !important';
+        passengerSection.style.opacity = '0 !important';
+        console.log('✅ Passenger section FORCED hidden');
     }
-    displayBookingHistory();
-    showProfileTab('dashboard');
-  } else if (sectionId === 'pnr') {
-    // Reset PNR form
-    const pnrForm = document.getElementById('pnrForm');
-    if (pnrForm) {
-      pnrForm.reset();
+
+    // STEP 3: Show the target section
+    const targetSection = document.getElementById(sectionId);
+    if (targetSection) {
+        targetSection.classList.add('active');
+        targetSection.classList.remove('hidden');
+        targetSection.style.display = 'block';
+        targetSection.style.visibility = 'visible';
+        targetSection.style.opacity = '1';
+        console.log('✅ Section displayed:', sectionId);
+    } else {
+        console.error('❌ Section not found:', sectionId);
+        return;
     }
-    const pnrResults = document.getElementById('pnrResults');
-    if (pnrResults) {
-      pnrResults.classList.add('hidden');
+
+    // STEP 4: Handle specific section initialization
+    if (sectionId === 'booking') {
+        showTrainResults();
+        // DOUBLE CHECK: ensure passenger section stays hidden in booking
+        if (passengerSection) {
+            passengerSection.classList.add('hidden');
+            passengerSection.style.display = 'none';
+        }
+    } else if (sectionId === 'profile') {
+        if (!isLoggedIn) {
+            showToast('Please login first to access your profile', 'info');
+            showAuthModal('loginModal');
+            return;
+        }
+        displayBookingHistory();
+        showProfileTab('dashboard');
+    } else if (sectionId === 'pnr') {
+        const pnrForm = document.getElementById('pnrForm');
+        if (pnrForm) pnrForm.reset();
+        const pnrResults = document.getElementById('pnrResults');
+        if (pnrResults) pnrResults.classList.add('hidden');
+    } else if (sectionId === 'tracking') {
+        if (!window.skipTrackingReset) {
+            const trackingForm = document.getElementById('trackingForm');
+            if (trackingForm) trackingForm.reset();
+            const trackingResults = document.getElementById('trackingResults');
+            if (trackingResults) trackingResults.classList.add('hidden');
+        }
+        window.skipTrackingReset = false;
+    } else if (sectionId === 'uts') {
+        goToStep(1);
     }
-  } else if (sectionId === 'tracking') {
-    // Reset tracking form only if not coming from a direct track action
-    if (!window.skipTrackingReset) {
-      const trackingForm = document.getElementById('trackingForm');
-      if (trackingForm) {
-        trackingForm.reset();
-      }
-      const trackingResults = document.getElementById('trackingResults');
-      if (trackingResults) {
-        trackingResults.classList.add('hidden');
-      }
+
+    // STEP 5: FINAL CHECK - ensure passenger section is never shown unless it's the target
+    if (sectionId !== 'passenger-section' && passengerSection) {
+        passengerSection.classList.add('hidden');
+        passengerSection.style.display = 'none !important';
+        passengerSection.style.visibility = 'hidden !important';
     }
-    window.skipTrackingReset = false;
-  } else if (sectionId === 'uts') {
-    // Reset UTS to step 1 when navigating to UTS
-    goToStep(1);
-  }
 }
 
 function setupStationAutocomplete(inputId, suggestionsId, field) {
@@ -2774,17 +2945,503 @@ function updateEnhancedBookingSummary(coach) {
     currentBookingData.totalFare = totalFareAmount;
     
     proceedBtn.disabled = false;
-    proceedBtn.textContent = `Proceed to Payment (₹${totalFareAmount})`;
+    proceedBtn.textContent = `Proceed to Passenger Details`;
   }
 }
 
-function proceedToPayment() {
-  if (currentBookingData.selectedSeats.length > 0) {
-    showEnhancedPaymentModal();
-    setTimeout(() => {
-      processReservedTicketBooking();
-    }, 4000);
+// CLEAN proceedToPassengerDetails function
+function proceedToPassengerDetails() {
+    console.log("🎫 PROCEED TO PASSENGER DETAILS");
+
+    // Validate that seats are selected
+    if (!currentBookingData.selectedSeats || currentBookingData.selectedSeats.length === 0) {
+        showToast('Please select seats first!', 'error');
+        return;
+    }
+
+    console.log(`✅ Found ${currentBookingData.selectedSeats.length} selected seats`);
+
+    // Show passenger details WITHIN the booking section (not as a separate main section)
+    showPassengerDetailsWithinBooking();
+}
+
+// Show passenger details within booking context
+function showPassengerDetailsWithinBooking() {
+    console.log("🎫 SHOWING PASSENGER DETAILS WITHIN BOOKING");
+
+    try {
+        // Hide booking subsections (but keep main booking section active)
+        const subsectionsToHide = ['trainResults', 'coachLayout', 'seatLayout', 'layoutUnavailable'];
+        subsectionsToHide.forEach(sectionId => {
+            const section = document.getElementById(sectionId);
+            if (section) {
+                section.classList.add('hidden');
+                section.style.display = 'none';
+            }
+        });
+
+        // Show the passenger section WITHIN booking
+        const passengerSection = document.getElementById('passenger-section');
+        if (passengerSection) {
+            passengerSection.classList.remove('hidden');
+            passengerSection.classList.add('visible');
+            passengerSection.style.display = 'block';
+            passengerSection.style.visibility = 'visible';
+            passengerSection.style.opacity = '1';
+            console.log("✅ Passenger section made visible within booking");
+        } else {
+            console.error("❌ passenger-section not found");
+            return;
+        }
+
+        // Initialize the passenger form
+        // initializePassengerForm();
+        setupPassengerFormNavigation();
+
+        console.log("✅ Passenger details setup complete");
+
+    } catch (error) {
+        console.error("❌ Error showing passenger section:", error);
+        showToast('Error loading passenger details. Please try again.', 'error');
+    }
+}
+
+// Initialize passenger form
+// function initializePassengerForm() {
+//     console.log("🔧 INITIALIZING PASSENGER FORM");
+
+//     try {
+//         // Get form elements
+//         const form = document.getElementById('passengers-form');
+//         const passengerOptions = document.querySelector('.passenger-options');
+//         const savedPassBtn = document.getElementById('use-saved-passengers');
+//         const newPassBtn = document.getElementById('add-new-passengers');
+
+//         // Make passenger options visible
+//         if (passengerOptions) {
+//             passengerOptions.style.display = 'block';
+//             passengerOptions.style.visibility = 'visible';
+//             console.log("✅ Passenger options visible");
+//         }
+
+//         // Show initial instruction message
+//         if (form) {
+//             const instructionHTML = `
+//                 <div class="passenger-instruction" style="
+//                     text-align: center;
+//                     padding: 2rem;
+//                     background: #f8f9fa;
+//                     border-radius: 8px;
+//                     border: 2px dashed #dee2e6;
+//                     margin: 1rem 0;
+//                 ">
+//                     <div style="margin-bottom: 1rem; font-size: 2rem;">🎫</div>
+//                     <h3 style="color: #333; margin-bottom: 1rem;">Add Passenger Details</h3>
+//                     <p style="color: #666; margin-bottom: 1.5rem;">
+//                         You have selected <strong>${currentBookingData.selectedSeats.length}</strong> seat(s). 
+//                         Choose how you want to add passenger information:
+//                     </p>
+//                     <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
+//                         <div style="background: #e3f2fd; padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.9rem;">
+//                             👥 Use saved passengers
+//                         </div>
+//                         <div style="background: #e8f5e8; padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.9rem;">
+//                             ✏️ Enter new details
+//                         </div>
+//                     </div>
+//                 </div>
+//             `;
+
+//             form.innerHTML = instructionHTML;
+//             form.classList.remove('hidden');
+//             form.style.display = 'block';
+//             form.style.visibility = 'visible';
+//         }
+
+//         // Setup button event listeners
+//         if (savedPassBtn) {
+//             savedPassBtn.onclick = function(e) {
+//                 e.preventDefault();
+//                 console.log("🖱️ Use Saved Passengers clicked");
+//                 showSavedPassengersForm();
+//             };
+//             savedPassBtn.style.display = 'inline-block';
+//             savedPassBtn.style.opacity = '1';
+//             console.log("✅ Saved passengers button setup");
+//         }
+
+//         if (newPassBtn) {
+//             newPassBtn.onclick = function(e) {
+//                 e.preventDefault();
+//                 console.log("🖱️ Add New Passengers clicked");
+//                 showNewPassengersForm();
+//             };
+//             newPassBtn.style.display = 'inline-block';
+//             newPassBtn.style.opacity = '1';
+//             console.log("✅ New passengers button setup");
+//         }
+
+//         // Initialize passengers array
+//         if (!currentBookingData.passengers) {
+//             currentBookingData.passengers = [];
+//         }
+
+//         console.log("✅ Passenger form initialization complete");
+
+//     } catch (error) {
+//         console.error("❌ Error initializing passenger form:", error);
+//     }
+// }
+
+// function initializePassengerForm() {
+//   const savedPassBtn = document.getElementById('use-saved-passengers');
+//   const newPassBtn   = document.getElementById('add-new-passengers');
+//   const savedForm    = document.getElementById('savedPassengersForm');
+//   const newForm      = document.getElementById('newPassengerForm');
+
+//   savedPassBtn.addEventListener('click', () => {
+//     savedForm.classList.remove('hidden');
+//     newForm.classList.add('hidden');
+//   });
+
+//   newPassBtn.addEventListener('click', () => {
+//     newForm.classList.remove('hidden');
+//     savedForm.classList.add('hidden');
+//   });
+// }
+
+// function initializePassengerForm() {
+//   const savedPassBtn = document.getElementById('use-saved-passengers');
+//   const newPassBtn   = document.getElementById('add-new-passengers');
+//   const savedForm    = document.getElementById('savedPassengersForm');
+//   const newForm      = document.getElementById('newPassengerForm');
+//   const addForm      = document.getElementById('addPassengerForm');
+
+//   // Ensure both forms start hidden
+//   savedForm.classList.add('hidden');
+//   newForm.classList.add('hidden');
+
+//   // Toggle to “Use Saved Passengers”
+//   useSavedBtn.addEventListener('click', e => {
+//     e.preventDefault();
+//     useSavedBtn.classList.add('active');
+//     addNewBtn.classList.remove('active');
+//     renderSavedList();
+//     savedForm.classList.remove('hidden');
+//     newFormDiv.classList.add('hidden');
+//   });
+
+//   // Toggle to “Enter New Details”
+//   addNewBtn.addEventListener('click', e => {
+//     e.preventDefault();
+//     addNewBtn.classList.add('active');
+//     useSavedBtn.classList.remove('active');
+//     newFormDiv.classList.remove('hidden');
+//     savedForm.classList.add('hidden');
+//     newFormDiv.querySelector('input[name="name"]').focus();
+//   });
+
+//   // Submit “Add New Passenger” when user presses Enter anywhere in the new-passenger form
+//   newForm.querySelectorAll('input').forEach(input => {
+//     input.addEventListener('keypress', e => {
+//       if (e.key === 'Enter') {
+//         e.preventDefault();
+//         addForm.dispatchEvent(new Event('submit', { cancelable: true }));
+//       }
+//     });
+//   });
+
+//   // (Existing) handle form submission as before
+//   if (addForm) {
+//     addForm.addEventListener('submit', handleAddPassenger);
+//   }
+// }
+
+function initializePassengerSection() {
+  const useSavedBtn     = document.getElementById('use-saved-passengers');
+  const addNewBtn       = document.getElementById('add-new-passengers');
+  const savedFormDiv    = document.getElementById('savedPassengersForm');
+  const newFormDiv      = document.getElementById('newPassengerForm');
+  const addFormNew      = document.getElementById('addPassengerFormNew');
+  const selectForm      = document.getElementById('selectPassengerForm');
+
+  // Toggle to “Use Saved Passengers”
+  useSavedBtn.addEventListener('click', e => {
+    e.preventDefault();
+    useSavedBtn.classList.add('active');
+    addNewBtn.classList.remove('active');
+    renderSavedList();
+    savedFormDiv.classList.remove('hidden');
+    newFormDiv.classList.add('hidden');
+  });
+
+  // Toggle to “Enter New Details”
+  addNewBtn.addEventListener('click', e => {
+    e.preventDefault();
+    addNewBtn.classList.add('active');
+    useSavedBtn.classList.remove('active');
+    newFormDiv.classList.remove('hidden');
+    savedFormDiv.classList.add('hidden');
+    newFormDiv.querySelector('input[name="name"]').focus();
+  });
+
+  // Handle “Add New Passenger” submission
+  addFormNew.addEventListener('submit', e => {
+    e.preventDefault();
+    const formData = new FormData(addFormNew);
+    const newPassenger = {
+      id: Date.now(),
+      name: formData.get('name'),
+      age: formData.get('age'),
+      gender: formData.get('gender')
+    };
+    savedPassengers.push(newPassenger);
+    selectPassenger(newPassenger);
+  });
+
+  // Handle selecting a saved passenger
+  selectForm.addEventListener('click', e => {
+    if (e.target.tagName === 'LI') {
+      const id = parseInt(e.target.dataset.id, 10);
+      const passenger = savedPassengers.find(p => p.id === id);
+      if (passenger) selectPassenger(passenger);
+    }
+  });
+
+  function renderSavedList() {
+    const savedList = document.getElementById('savedList');
+    savedList.innerHTML = '';
+    savedPassengers.forEach(p => {
+      const li = document.createElement('li');
+      li.textContent = `${p.name}, Age ${p.age}, ${p.gender === 'M' ? 'Male' : 'Female'}`;
+      li.dataset.id = p.id;
+      savedList.appendChild(li);
+    });
   }
+
+  function selectPassenger(passenger) {
+    alert(`Selected ${passenger.name} for booking.`);
+    // Add to booking data…
+  }
+}
+
+// document.addEventListener('DOMContentLoaded', initializePassengerSection);
+
+// function setupPassengerFormNavigation() {
+//   const proceedBtn = document.getElementById('proceedToPaymentBtn');
+//   if (proceedBtn) {
+//     proceedBtn.addEventListener('click', () => {
+//       // Validate passenger details have been entered
+//       if (!validatePassengerDetails()) {
+//         showToast('Please add at least one passenger.', 'error');
+//         return;
+//       }
+//       showPaymentMethods();
+//     });
+//   }
+//   // Call this after initializePassengerForm()
+//   // setupPassengerFormNavigation();
+// }
+function setupPassengerFormNavigation() {
+  const tabSaved     = document.getElementById('tabSaved');
+  const tabNew       = document.getElementById('tabNew');
+  const contentSaved = document.getElementById('contentSaved');
+  const contentNew   = document.getElementById('contentNew');
+  const savedList    = document.getElementById('savedList');
+  const newForm      = document.getElementById('newPassengerForm');
+  const nextBtn      = document.getElementById('proceedToPaymentBtn');
+
+  // Temporary in-memory store of saved passengers
+  let savedPassengers = [
+    { id: 1, name: 'Alice', age: 30, gender: 'Female' },
+    { id: 2, name: 'Bob',   age: 25, gender: 'Male' }
+  ];
+  let selectedPassengers = [];
+
+  // Render the list of saved passengers
+  function renderSavedList() {
+    savedList.innerHTML = '';
+    savedPassengers.forEach(p => {
+      const li = document.createElement('li');
+      li.textContent = `${p.name}, ${p.age}, ${p.gender}`;
+      li.dataset.id = p.id;
+      if (selectedPassengers.includes(p.id)) {
+        li.classList.add('selected');
+      }
+      li.addEventListener('click', () => {
+        if (selectedPassengers.includes(p.id)) {
+          selectedPassengers = selectedPassengers.filter(id => id !== p.id);
+          li.classList.remove('selected');
+        } else {
+          selectedPassengers.push(p.id);
+          li.classList.add('selected');
+        }
+      });
+      savedList.appendChild(li);
+    });
+  }
+
+  // Tab click handlers
+  tabSaved.addEventListener('click', () => {
+    tabSaved.classList.add('active');
+    tabNew.classList.remove('active');
+    contentSaved.classList.remove('hidden');
+    contentNew.classList.add('hidden');
+    renderSavedList();
+  });
+
+  tabNew.addEventListener('click', () => {
+    tabNew.classList.add('active');
+    tabSaved.classList.remove('active');
+    contentNew.classList.remove('hidden');
+    contentSaved.classList.add('hidden');
+  });
+
+  // Handle new passenger form submission
+  newForm.addEventListener('submit', e => {
+    e.preventDefault();
+    const name   = document.getElementById('passengerName').value.trim();
+    const age    = parseInt(document.getElementById('passengerAge').value, 10);
+    const gender = document.getElementById('passengerGender').value;
+    if (!name || !age || !gender) {
+      alert('Please fill in all fields.');
+      return;
+    }
+    const id = Date.now();
+    savedPassengers.push({ id, name, age, gender });
+    selectedPassengers = [id];
+    newForm.reset();
+    // Switch back to saved tab and refresh list
+    tabSaved.click();
+  });
+
+  // Next button: validate selection and proceed
+  nextBtn.addEventListener('click', () => {
+    if (selectedPassengers.length === 0) {
+      alert('Please select or add at least one passenger.');
+      return;
+    }
+    // Store selected passengers in booking data
+    currentBookingData.passengers = savedPassengers.filter(p =>
+      selectedPassengers.includes(p.id)
+    );
+    // Proceed to payment view
+    showSection('payment');
+  });
+
+  // Initialize default tab
+  tabSaved.click();
+}
+// addPassengerHidingCSS();
+// setupPassengerFormNavigation();
+
+function validatePassengerDetails() {
+  // e.g., check applicationData.currentBookingData.passengers.length > 0
+  return currentBookingData.passengers && currentBookingData.passengers.length > 0;
+}
+
+// Go back to seat selection
+function goBackToSeatSelection() {
+    console.log("⬅️ GOING BACK TO SEAT SELECTION");
+
+    // Hide passenger section
+    const passengerSection = document.getElementById('passenger-section');
+    if (passengerSection) {
+        passengerSection.classList.add('hidden');
+        passengerSection.classList.remove('visible');
+        passengerSection.style.display = 'none';
+        passengerSection.style.visibility = 'hidden';
+        passengerSection.style.opacity = '0';
+        console.log("✅ Passenger section hidden");
+    }
+
+    // Show seat layout section
+    const seatLayout = document.getElementById('seatLayout');
+    if (seatLayout) {
+        seatLayout.classList.remove('hidden');
+        seatLayout.style.display = 'block';
+        console.log("✅ Seat layout shown");
+    }
+
+    showToast('Returned to seat selection', 'info');
+}
+
+// Add CSS to force hide passenger section
+function addPassengerHidingCSS() {
+    const css = `
+    /* FORCE HIDE PASSENGER SECTION BY DEFAULT */
+    #passenger-section {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+    }
+
+    /* Only show when explicitly made visible */
+    #passenger-section.visible {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+
+    /* Ensure sections are properly hidden */
+    .section.hidden {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+    }
+
+    .section.active {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+    `;
+
+    const style = document.createElement('style');
+    style.textContent = css;
+    document.head.appendChild(style);
+    console.log('✅ Passenger hiding CSS added');
+}
+
+// Call CSS injection when DOM is ready
+document.addEventListener('DOMContentLoaded', function() {
+    addPassengerHidingCSS();
+});
+
+console.log("✅ Complete passenger section visibility fix loaded");
+
+// function proceedToPayment() {
+//   if (currentBookingData.selectedSeats.length > 0) {
+//     showEnhancedPaymentModal();
+//     setTimeout(() => {
+//       processReservedTicketBooking();
+//     }, 4000);
+//   }
+// }
+function proceedToPayment() {
+  if (!currentBookingData.paymentMethod) {
+    showToast('Please select a payment method.', 'error');
+    return;
+  }
+  // Trigger payment modal or API integration
+  processReservedTicketBooking();
+}
+
+function showPaymentMethods() {
+  // Hide passenger section
+  document.getElementById('passenger-section').classList.add('hidden');
+
+  // Show payment section
+  const paySection = document.getElementById('payment-section');
+  paySection.classList.remove('hidden');
+
+  // Set up click handlers for each method
+  paySection.querySelectorAll('.payment-methods button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      currentBookingData.paymentMethod = btn.dataset.method;
+      proceedToPayment();
+    });
+  });
 }
 
 function showEnhancedPaymentModal() {
